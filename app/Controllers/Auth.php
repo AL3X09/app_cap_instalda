@@ -1,4 +1,6 @@
 <?php 
+//https://onlinewebtutorblog.com/codeigniter-4-restful-apis-with-jwt-authentication/
+
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
