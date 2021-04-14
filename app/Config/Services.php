@@ -19,6 +19,12 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
+
+	public static function getSecretKey()
+	{
+		return 'kNagRnKX3qddp7xXkoGSgbbAwlqIX3ug';
+	}
+
 	// public static function example($getShared = true)
 	// {
 	//     if ($getShared)

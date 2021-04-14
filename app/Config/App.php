@@ -22,8 +22,9 @@ class App extends BaseConfig
 	 * environments.
 	 *
 	 * @var string
+	 * public $baseURL = 'http://localhost/app_cap_instalada/public/';
 	 */
-	public $baseURL = 'http://localhost/capa_instalada_app/public/';
+	public $baseURL = 'http://localhost:81';
 
 	/**
 	 * --------------------------------------------------------------------------

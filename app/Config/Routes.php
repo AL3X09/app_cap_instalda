@@ -18,11 +18,15 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('Login');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 $routes->setAutoRoute(true);
+
+//JWT
+$routes->resource('api/auth', ['controller' => 'Auth']);
+$routes->resource('api/user', ['controller' => 'User']);
 
 /*
  * --------------------------------------------------------------------
