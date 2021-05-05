@@ -24,6 +24,12 @@
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="<?=base_url();?>/assets/css/demo.css">
+	<!-- CSS Tables -->
+	<link rel="stylesheet" href="<?=base_url();?>/assets/css/bootstrap-table.css"/>
+	<!--   Core JS Files   -->
+	<script src="<?=base_url();?>/assets/js/core/jquery.3.2.1.min.js"></script>
+	<!-- Chart JS -->
+	<script src="<?= base_url(); ?>/assets/js/plugin/chart.js/chart.min.js"></script>
 </head>
 <body>
 <!-- wrapper -->

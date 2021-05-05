@@ -21,27 +21,24 @@
         </div>
 
         <div class="col-md-6 ">
+            <form id="formlogin" method="post">
 
-            <form>
                 <div class="form-group row">
-                    <label for="exampleInputEmail1" class="col-sm-2 col-form-label">Correo</label>
+                    <label for="correo" class="col-sm-2 col-form-label">Correo</label>
                     <div class="col-sm-10">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                            placeholder="Enter email">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                            else.</small>
+                        <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" required>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="exampleInputPassword1" class="col-sm-2 col-form-label">Contraseña</label>
+                    <label for="contrasenia" class="col-sm-2 col-form-label">Contraseña</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input type="password" class="form-control" id="contrasenia" name="contrasenia" placeholder="Contraseña" required>
                     </div>
                 </div>
-                <div class="form-check">
+                <!--<div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Recordarme</label>
-                </div>
+                </div>-->
                 <div class="mb-3 row">
                     <label class="col-sm-4 col-form-label">
                     <button type="submit" class="btn btn-primary">Iniciar sesion</button>

@@ -1,0 +1,155 @@
+<?php 
+namespace App\Controllers;
+
+use App\Models\GruposervicioModel;
+use Config\Services;
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\RESTful\ResourceController;
+use Exception;
+use \Firebase\JWT\JWT;
+
+
+
+// headers
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=utf8");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control");
+
+//unidad de servicios de salud
+class Gruposervicio extends ResourceController{
+    
+    use ResponseTrait;
+
+    public function index(){
+
+        echo view('template/header');
+		echo view('template/main_header');
+		echo view('template/sidebar');
+		echo view('grupo_view');
+		echo view('template/footer');
+    }
+
+    public function getallGrupo(){
+        
+        try {
+            $grupmodel = new GruposervicioModel();
+            
+            //vedrifico si llega información del correo
+                $exis_hso = $grupmodel->get_all_grupo();
+                if (!empty($exis_hso)) {
+
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $exis_hso,
+                    ];
+
+                } else {
+
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'data' => 'Error, tabla sin datos',
+                    ];
+                }
+
+            return $this->respond($response);
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
+
+    public function detailsHso(){
+        
+        try {
+            $grupmodel = new GruposervicioModel();
+            //vedrifico si llega información del correo
+            if (!empty($_POST['pkuss'])) {
+                //Valido si el correo ya existe en la BD
+                $data_grupo = $grupmodel->get_data_grupo ($_POST['pkhso']);
+                //envio respuesta a vista
+                if (!empty($data_grupo)) {
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $data_grupo,
+                    ];
+                } else {
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'data' => 'Error, no existe el valor consultado',
+                    ];
+                }
+
+            }
+            return $this->respond($response);
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
+
+    public function insertHso(){
+        
+        try {
+            $grupmodel = new GruposervicioModel();
+             //vedrifico si llega información del correo
+             if (!empty($_POST['nombre'])) {
+
+                $data = [
+                    "nombre" => $this->request->getVar("nombre"),
+                    "sigla" => $this->request->getVar("sigla"),
+                ];
+               //valido si ya esta registrado el correo y envio exeption
+               $exis_grupo = $grupmodel->exist_grupo($data['nombre']);
+
+               if ($exis_grupo) {
+
+                   $response = [
+                       'status' => 400,
+                       "error" => TRUE,
+                       'messages' => 'El valor de HSO ya existe',
+                   ];
+               } else {
+                   //Envio datos al modelo para insertar
+                   $insert_grupo = $grupmodel->insert_grupo($data);
+
+                   if ($insert_grupo) {
+                       $response = [
+                           'status' => 201,
+                           "error" => FALSE,
+                           'messages' => 'HSO creada',
+                       ];
+                   } else {
+
+                       $response = [
+                           'status' => 500,
+                           "error" => TRUE,
+                           'messages' => 'Fallo al crear',
+                       ];
+                   }
+               }
+           } else {
+
+               $response = [
+                   'status' => 409,
+                   "error" => TRUE,
+                   'messages' => 'No se encontraron variables de envio',
+               ];
+           }
+       } catch (\Exception $e) {
+           $response = [
+               'status' => 500,
+               "error" => TRUE,
+               'messages' => 'se ha presntado una exepción ' . $e->getMessage(),
+           ];
+           //die($e->getMessage());
+       }
+       return $this->respond($response);
+
+    }
+
+
+}

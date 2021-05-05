@@ -53,7 +53,7 @@ $('#map-example').vectorMap(
 
 //Chart
 
-var ctx = document.getElementById('statisticsChart').getContext('2d');
+var ctx = null; //document.getElementById('statisticsChart').getContext('2d');
 
 var statisticsChart = new Chart(ctx, {
 	type: 'line',
