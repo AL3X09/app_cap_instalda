@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardatagus() {
 
   $.ajax({
-    url: '/api/gus/alldata',
+    url: base_url+ '/api/gus/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -77,7 +77,7 @@ function get_uss($iduss) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/uss/alldata',
+    url: base_url+ '/api/uss/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -108,7 +108,7 @@ function get_uss($iduss) {
 function insertgus() {
 
   $.ajax({
-    url: 'api/gus/crear',
+    url: base_url+ '/api/gus/crear',
     method: 'POST',
     data: $("#forminsertgus").serialize(),
     beforeSend: function () {
@@ -138,7 +138,7 @@ function insertgus() {
 async function updategus($id) {
 
   $.ajax({
-    url: 'api/gus/buscar',
+    url: base_url+ '/api/gus/buscar',
     method: 'POST',
     data: { pkgus: $id },
     beforeSend: function () {
@@ -238,7 +238,7 @@ async function updategus($id) {
 function deletegus($id) {
 
   $.ajax({
-    url: 'api/gus/eliminar',
+    url: base_url+ '/api/gus/eliminar',
     method: 'POST',
     data: { idgus: $id },
     beforeSend: function () {

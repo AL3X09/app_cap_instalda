@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardataperf() {
 
   $.ajax({
-    url: '/api/perfilest/alldata',
+    url: base_url+ '/api/perfilest/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -57,7 +57,7 @@ function cargar_tablesprog(data) {
 function insertperfil() {
 
   $.ajax({
-    url: 'api/perfilest/crear',
+    url: base_url+ '/api/perfilest/crear',
     method: 'POST',
     data: $("#forminsertperf").serialize(),
     beforeSend: function () {
@@ -87,7 +87,7 @@ function insertperfil() {
 async function updateperf($id) {
 
   $.ajax({
-    url: 'api/perfilest/buscar',
+    url: base_url+ '/api/perfilest/buscar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {
@@ -125,7 +125,7 @@ async function updateperf($id) {
           if (result.isConfirmed) {
             //ajax update
             $.ajax({
-              url: 'api/perfilest/editar',
+              url: base_url+ '/api/perfilest/editar',
               method: 'POST',
               data: $("#formupdateperf").serialize(),
               beforeSend: function () {
@@ -168,7 +168,7 @@ async function updateperf($id) {
 function deleteperf($id) {
 
   $.ajax({
-    url: 'api/perfilest/eliminar',
+    url: base_url+ '/api/perfilest/eliminar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {

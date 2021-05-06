@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardatasvo() {
 
   $.ajax({
-    url: '/api/svo/alldata',
+    url: base_url+ '/api/svo/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -70,7 +70,7 @@ function get_gus($idgus) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/gus/alldata',
+    url: base_url+ '/api/gus/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -102,7 +102,7 @@ function get_gus($idgus) {
 function insertsvo() {
 
   $.ajax({
-    url: 'api/svo/crear',
+    url: base_url+ '/api/svo/crear',
     method: 'POST',
     data: $("#forminsertsvo").serialize(),
     beforeSend: function () {
@@ -132,7 +132,7 @@ function insertsvo() {
 async function updatesvo($id) {
 
   $.ajax({
-    url: 'api/svo/buscar',
+    url: base_url+ '/api/svo/buscar',
     method: 'POST',
     data: { pksvo: $id },
     beforeSend: function () {
@@ -217,7 +217,7 @@ async function updatesvo($id) {
 function deletesvo($id) {
 
   $.ajax({
-    url: 'api/svo/eliminar',
+    url: base_url+ '/api/svo/eliminar',
     method: 'POST',
     data: { idsvo: $id },
     beforeSend: function () {

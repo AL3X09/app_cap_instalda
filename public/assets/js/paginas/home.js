@@ -15,7 +15,7 @@ function get_uus() {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/uss/alldata',
+    url: base_url+ '/api/uss/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -42,7 +42,7 @@ function get_uus() {
 function count_uus() {
  
   $.ajax({
-    url: 'api/uss/countalluss',
+    url: base_url+ '/api/uss/countalluss',
     method: 'GET',
     beforeSend: function () {
     },
@@ -65,7 +65,7 @@ function count_uus() {
 function count_gus() {
   
   $.ajax({
-    url: 'api/gus/countallgus',
+    url: base_url+ '/api/gus/countallgus',
     method: 'GET',
     beforeSend: function () {
     },
@@ -89,7 +89,7 @@ function count_gus() {
 function count_svo() {
 
   $.ajax({
-    url: 'api/svo/countallsvo',
+    url: base_url+ '/api/svo/countallsvo',
     method: 'GET',
     beforeSend: function () {
     },
@@ -117,7 +117,7 @@ function count_progxestu() {
   var btx = document.getElementById('chartproperf').getContext('2d');
   
   $.ajax({
-    url: 'api/estandar/countestprog',
+    url: base_url+ '/api/estandar/countestprog',
     method: 'GET',
     beforeSend: function () {
     },
@@ -174,7 +174,7 @@ function count_progxdocent() {
   var btx = document.getElementById('chartprogdocente').getContext('2d');
   
   $.ajax({
-    url: 'api/capinstalada/countdoceprog',
+    url: base_url+ '/api/capinstalada/countdoceprog',
     method: 'GET',
     beforeSend: function () {
     },

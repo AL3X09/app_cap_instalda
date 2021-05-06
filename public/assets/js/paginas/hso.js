@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardata() {
 
   $.ajax({
-    url: '/api/hso/alldata',
+    url: base_url+ '/api/hso/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -68,7 +68,7 @@ function cargar_table(data) {
 function inserthso() {
 
   $.ajax({
-    url: 'api/hso/crear',
+    url: base_url+ '/api/hso/crear',
     method: 'POST',
     data: $("#forminsert").serialize(),
     beforeSend: function () {
@@ -102,7 +102,7 @@ function updatehso($id) {
 
   $.ajax({
     //async: false,//no se debe usar afecta los procesos
-    url: 'api/hso/buscar',
+    url: base_url+ '/api/hso/buscar',
     method: 'POST',
     data: { pkhso: $id },
     beforeSend: function () {
@@ -176,7 +176,7 @@ function updatehso($id) {
 function deletehso($id) {
 
   $.ajax({
-    url: 'api/hso/eliminar',
+    url: base_url+ '/api/hso/eliminar',
     method: 'POST',
     data: { pkhso: $id },
     beforeSend: function () {

@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardataestand() {
 
   $.ajax({
-    url: '/api/capinstalada/alldata',
+    url: base_url+ '/api/capinstalada/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -36,7 +36,7 @@ function get_uus(iduus) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/uss/alldata',
+    url: base_url+ '/api/uss/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -79,7 +79,7 @@ function get_gus(idgus) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/gus/fkagrupado',
+    url: base_url+ '/api/gus/fkagrupado',
     method: 'POST',
     data: { pkuus: uus },
     beforeSend: function () {
@@ -123,7 +123,7 @@ function get_svo(idsvo) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/svo/fkagrupado',
+    url: base_url+ '/api/svo/fkagrupado',
     method: 'POST',
     data: { pkgus: gus },
     beforeSend: function () {
@@ -166,7 +166,7 @@ function get_programa(idprog) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/programa/fkagrupado',
+    url: base_url+ '/api/programa/fkagrupado',
     method: 'POST',
     data: { pksov: sov },
     beforeSend: function () {
@@ -299,7 +299,7 @@ function cargar_tablesstand(data) {
 function insertestd() {
   
   $.ajax({
-    url: 'api/estandar/crear',
+    url: base_url+ '/api/estandar/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -330,7 +330,7 @@ function insertestd() {
 function insertcapuus() {
 
   $.ajax({
-    url: 'api/capacidaduus/crear',
+    url: base_url+ '/api/capacidaduus/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -361,7 +361,7 @@ function insertcapuus() {
 function insertcapinsta() {
 
   $.ajax({
-    url: 'api/capinstalada/crear',
+    url: base_url+ '/api/capinstalada/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -391,7 +391,7 @@ function insertcapinsta() {
 function insertcapainsta() {
 
   $.ajax({
-    url: 'api/insertcapainsta/crear',
+    url: base_url+ '/api/insertcapainsta/crear',
     method: 'POST',
     data: $("#forminsertestd").serialize(),
     beforeSend: function () {
@@ -429,7 +429,7 @@ function updatestand(params) {
 async function updatestand1($id) {
 
   $.ajax({
-    url: 'api/estandar/buscar',
+    url: base_url+ '/api/XX/buscar',
     method: 'POST',
     data: { idstand: $id },
     beforeSend: function () {
@@ -531,7 +531,7 @@ async function updatestand1($id) {
 function deletestand($id) {
 
   $.ajax({
-    url: 'api/programa/eliminar',
+    url: base_url+ '/api/XX/eliminar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {

@@ -50,7 +50,7 @@ $(document).ready(function () {
                 //console.log(value);
                 var flag = true;
                 $.ajax({
-                    url:'api/existe_correo',
+                    url:base_url+'/api/existe_correo',
                     type:'POST',
                     async:false,
                     data: {

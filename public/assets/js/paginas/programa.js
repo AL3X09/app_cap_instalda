@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardataprog() {
 
   $.ajax({
-    url: '/api/programa/alldata',
+    url: base_url+ '/api/programa/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -72,7 +72,7 @@ function get_svo($idsvo) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/svo/alldata',
+    url: base_url+ '/api/svo/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -111,7 +111,7 @@ function get_perfil($idperf) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/perfilest/alldata',
+    url: base_url+ '/api/perfilest/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -144,7 +144,7 @@ function get_perfil($idperf) {
 function insertprog() {
 
   $.ajax({
-    url: 'api/programa/crear',
+    url: base_url+ '/api/programa/crear',
     method: 'POST',
     data: $("#forminsertprog").serialize(),
     beforeSend: function () {
@@ -174,7 +174,7 @@ function insertprog() {
 async function updateprog($id) {
 
   $.ajax({
-    url: 'api/programa/buscar',
+    url: base_url+ '/api/programa/buscar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {
@@ -264,7 +264,7 @@ async function updateprog($id) {
 function deleteprog($id) {
 
   $.ajax({
-    url: 'api/programa/eliminar',
+    url: base_url+ '/api/programa/eliminar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {

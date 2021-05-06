@@ -17,7 +17,7 @@ $(document).ready(function () {
 function guardar() {
   
   $.ajax({
-    url: 'api/register',
+    url: base_url+ '/api/register',
     method: 'POST',
     data: $('#formRegistro').serialize(),
     success: function (data) {

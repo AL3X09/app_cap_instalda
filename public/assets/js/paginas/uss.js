@@ -9,7 +9,7 @@ function cargardatauss() {
 
 
   $.ajax({
-    url: '/api/uss/alldata',
+    url: base_url+ '/api/uss/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -79,7 +79,7 @@ function get_hso($idhso) {
     .val('');
   //cargo select
   $.ajax({
-    url: 'api/hso/alldata',
+    url: base_url+ '/api/hso/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -118,7 +118,7 @@ function get_hso($idhso) {
 function insertuss() {
 
   $.ajax({
-    url: 'api/uss/crear',
+    url: base_url+ '/api/uss/crear',
     method: 'POST',
     data: $("#forminsertuss").serialize(),
     beforeSend: function () {
@@ -148,7 +148,7 @@ function insertuss() {
 async function updateuss($id) {
 
   $.ajax({
-    url: 'api/uss/buscar',
+    url: base_url+ '/api/uss/buscar',
     method: 'POST',
     data: { pkuss: $id },
     beforeSend: function () {
@@ -248,7 +248,7 @@ async function updateuss($id) {
 function deleteuss($id) {
 
   $.ajax({
-    url: 'api/uss/eliminar',
+    url: base_url+ '/api/uss/eliminar',
     method: 'POST',
     data: { iduss: $id },
     beforeSend: function () {
