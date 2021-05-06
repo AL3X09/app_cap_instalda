@@ -7,7 +7,7 @@ $(document).ready(function () {
 function cargardataestand() {
 
   $.ajax({
-    url: base_url+ '/api/capinstalada/alldata',
+    url: base_url + '/api/capinstalada/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -36,7 +36,7 @@ function get_uus(iduus) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url+ '/api/uss/alldata',
+    url: base_url + '/api/uss/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -79,7 +79,7 @@ function get_gus(idgus) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url+ '/api/gus/fkagrupado',
+    url: base_url + '/api/gus/fkagrupado',
     method: 'POST',
     data: { pkuus: uus },
     beforeSend: function () {
@@ -123,7 +123,7 @@ function get_svo(idsvo) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url+ '/api/svo/fkagrupado',
+    url: base_url + '/api/svo/fkagrupado',
     method: 'POST',
     data: { pkgus: gus },
     beforeSend: function () {
@@ -166,7 +166,7 @@ function get_programa(idprog) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url+ '/api/programa/fkagrupado',
+    url: base_url + '/api/programa/fkagrupado',
     method: 'POST',
     data: { pksov: sov },
     beforeSend: function () {
@@ -198,12 +198,8 @@ function get_programa(idprog) {
 
 function cargar_tablesstand(data) {
   $('#table_prog').bootstrapTable({
-    search: true,
-    showRefresh: false,
-    showExport: true,
-    filter: true,
-    exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
-    //buttonsAlign: 'left',
+    //exportDataType: $(this).val(),
+    exportTypes: ['csv', 'excel'],
     columns: [
       {
         field: 'nombreuss',
@@ -297,9 +293,9 @@ function cargar_tablesstand(data) {
 }
 
 function insertestd() {
-  
+
   $.ajax({
-    url: base_url+ '/api/estandar/crear',
+    url: base_url + '/api/estandar/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -330,7 +326,7 @@ function insertestd() {
 function insertcapuus() {
 
   $.ajax({
-    url: base_url+ '/api/capacidaduus/crear',
+    url: base_url + '/api/capacidaduus/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -361,7 +357,7 @@ function insertcapuus() {
 function insertcapinsta() {
 
   $.ajax({
-    url: base_url+ '/api/capinstalada/crear',
+    url: base_url + '/api/capinstalada/crear',
     method: 'POST',
     data: $("#formcapinstalada").serialize(),
     beforeSend: function () {
@@ -391,7 +387,7 @@ function insertcapinsta() {
 function insertcapainsta() {
 
   $.ajax({
-    url: base_url+ '/api/insertcapainsta/crear',
+    url: base_url + '/api/insertcapainsta/crear',
     method: 'POST',
     data: $("#forminsertestd").serialize(),
     beforeSend: function () {
@@ -409,7 +405,7 @@ function insertcapainsta() {
         });
         window.setTimeout(function () { }, 5000);
         location.reload();
-        
+
       } else {
         Swal.fire(data.messages);
       }
@@ -429,7 +425,7 @@ function updatestand(params) {
 async function updatestand1($id) {
 
   $.ajax({
-    url: base_url+ '/api/XX/buscar',
+    url: base_url + '/api/XX/buscar',
     method: 'POST',
     data: { idstand: $id },
     beforeSend: function () {
@@ -531,7 +527,7 @@ async function updatestand1($id) {
 function deletestand($id) {
 
   $.ajax({
-    url: base_url+ '/api/XX/eliminar',
+    url: base_url + '/api/XX/eliminar',
     method: 'POST',
     data: { idprog: $id },
     beforeSend: function () {

@@ -5,7 +5,7 @@
                             <ul class="nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">
-                                         Idea por: Henrry Forero.
+									Idea y creación por: Henrry J. Forero< Fernandez
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -45,8 +45,8 @@
 	<script src="<?= base_url(); ?>/assets/js/plugin/chart-circle/circles.min.js"></script>
 
 	<!-- Datatables 
-	<script src="../assets/js/plugin/datatables/datatables.min.js"></script>
-	-->
+	<script src="../assets/js/plugin/datatables/datatables.min.js"></script>-->
+	<script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
 	<script src="<?= base_url(); ?>/assets/js/bootstrap-table.js"></script>
 	<script src="<?= base_url(); ?>/assets/js/locale/bootstrap-table-es-MX.js"></script>
 
@@ -65,6 +65,7 @@
 
 	<!-- Atlantis DEMO methods, don't include it in your project! -->
 	<script src="<?= base_url(); ?>/assets/js/setting-demo.js"></script>
+	
 	<!--<script src="../assets/js/demo.js"></script>-->
 </body>
 </html>

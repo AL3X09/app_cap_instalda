@@ -17,9 +17,25 @@
                         Insertar
                     </button>
                     <table id="table_prog"
-                    class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4"
                     data-toolbar="#toolbar"
-                    data-show-export="true">
+                    data-search="true"
+                    data-show-refresh="true"
+                    data-show-toggle="true"
+                    data-show-fullscreen="true"
+                    data-show-columns="true"
+                    data-show-columns-toggle-all="true"
+                    data-detail-view="true"
+                    data-show-export="true"
+                    data-click-to-select="true"
+                    data-detail-formatter="detailFormatter"
+                    data-minimum-count-columns="2"
+                    data-show-pagination-switch="true"
+                    data-pagination="true"
+                    data-id-field="id"
+                    data-page-list="[4, 8, 16, 100]"
+                    data-show-footer="false"
+                    class="table table-bordered table-head-bg-info table-bordered-bd-info mt-4"
+                    >
                     </table>
                 </div>
             </div>
