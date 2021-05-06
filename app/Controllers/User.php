@@ -167,7 +167,7 @@ class User extends ResourceController
                         'error' => TRUE,
                         'messages' => 'Detos Incorrectos'
                     ];
-                    session_destroy();
+                    //session_destroy();
 				    //$this->index();
                     return $this->respond($response);
                 }
@@ -177,7 +177,7 @@ class User extends ResourceController
                     'error' => TRUE,
                     'messages' => 'Usuario no encontrado'
                 ];
-                session_destroy();
+                //session_destroy();
 				//$this->index();
                 return $this->respond($response);
             }

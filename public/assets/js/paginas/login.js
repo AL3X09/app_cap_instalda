@@ -14,7 +14,7 @@ function login() {
   //console.log('holalogin')
 
   $.ajax({
-    url: base_url+'api/login',
+    url: base_url+'/api/login',
     method: 'POST',
     data: $("#formlogin").serialize(),
     beforeSend: function () {
@@ -24,7 +24,7 @@ function login() {
       if (data.status == '201') {
         console.log(data);
         localStorage.setItem("user", JSON.stringify(data.token));
-        window.location.href = "/Home";
+        window.location.href = base_url+"/Home";
         //alertify.success(data.msg);
       } else {
         alert(data.messages);
