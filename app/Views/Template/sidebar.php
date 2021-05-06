@@ -38,7 +38,7 @@
 			</div>
 			<ul class="nav nav-primary">
 				<li class="nav-item active">
-					<a href="/home">
+					<a href="<?= base_url(); ?>/home">
 						<i class="fas fa-desktop"></i>
 						<p>Dashboard</p>
 					</a>
@@ -50,7 +50,7 @@
 					<h4 class="text-section">Tabla de datos</h4>
 				</li>
 				<li class="nav-item">
-					<a href="/capinstalada">
+					<a href="<?= base_url(); ?>/capinstalada">
 						<i class="fas fa-pen-square"></i>
 						<p>instrumento</p>
 					</a>
@@ -71,32 +71,32 @@
 					<div class="collapse" id="base">
 						<ul class="nav nav-collapse">
 							<li>
-								<a href="/hso">
+								<a href="<?= base_url(); ?>/hso">
 									<span class="sub-item">HSO</span>
 								</a>
 							</li>
 							<li>
-								<a href="/uss">
+								<a href="<?= base_url(); ?>/uss">
 									<span class="sub-item">Unidad de servicios</span>
 								</a>
 							</li>
 							<li>
-								<a href="/gus">
+								<a href="<?= base_url(); ?>/gus">
 									<span class="sub-item">Grupos</span>
 								</a>
 							</li>
 							<li>
-								<a href="/svo">
+								<a href="<?= base_url(); ?>/svo">
 									<span class="sub-item">Servicios ofertados</span>
 								</a>
 							</li>
 							<li>
-								<a href="/programa">
+								<a href="<?= base_url(); ?>/programa">
 									<span class="sub-item">Porgramas</span>
 								</a>
 							</li>
 							<li>
-								<a href="/perfil">
+								<a href="<?= base_url(); ?>/perfil">
 									<span class="sub-item">Perfiles</span>
 								</a>
 							</li>
