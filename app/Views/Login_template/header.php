@@ -27,7 +27,8 @@
 	<link rel="stylesheet" href="<?=base_url();?>/assets/css/demo.css">-->
 	
 	<link rel="stylesheet" href="<?=base_url();?>/assets/css/bootstrapValidator.min.css"/>
-	
+	<!-- SET GLOBAL BASE URL -->
+    <script>var base_url = '<?php echo base_url() ?>';</script>
 
 </head>
 <body>
