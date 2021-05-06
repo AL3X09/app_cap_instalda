@@ -35,7 +35,7 @@ $routes->group("api", function ($routes) {
     $routes->post("register", "User::createUser");
     $routes->post("login", "User::validateUser");
     $routes->get("userdata", "User::userDetails");
-    $routes->post("logout", "User::logoutUser");
+    
 });
 
 //grupo para procesos de las HSO
@@ -160,6 +160,7 @@ $routes->group("api/capinstalada", function ($routes) {
 // route since we don't have to scan directories.
 //principal
 $routes->get('/', 'Login::index');
+$routes->get('/logout', 'User::cerrarSesion');
 //vistas
 $routes->get("/", "Home::index");
 $routes->get("/", "Uss::index");

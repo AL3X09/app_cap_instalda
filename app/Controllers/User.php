@@ -21,8 +21,9 @@ class User extends ResourceController
 {
     use ResponseTrait;
 
-    public function existe_correo(){
-        
+    public function existe_correo()
+    {
+
         try {
             $userModel = new UserModel();
             //vedrifico si llega información del correo
@@ -37,25 +38,25 @@ class User extends ResourceController
                         'messages' => 'El correo ya existe',
                     ];
                 } else {
-                        $response = '';
-                    }
+                    $response = '';
+                }
             }
             return $this->respond($response);
         } catch (\Exception $e) {
             return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
         }
-
     }
 
-    public function createUser(){
+    public function createUser()
+    {
         try {
             $userModel = new UserModel();
             //vedrifico si llega información del correo
             if (!empty($_POST['correo'])) {
 
                 $data = [
-                    "nombres" => $this->request->getVar("nombre"),
-                    "apellidos" => $this->request->getVar("apellido"),
+                    "nombres" => $this->request->getVar("nombres"),
+                    "apellidos" => $this->request->getVar("apellidos"),
                     "correo" => strtolower($this->request->getVar("correo")),
                     "telefono" => $this->request->getVar("telefono"),
                     "contrasenia" => password_hash($this->request->getVar("contrasenia"), PASSWORD_DEFAULT),
@@ -113,11 +114,11 @@ class User extends ResourceController
         try {
 
             $userModel = new UserModel();
-                        
+
             //$userdata = $userModel->where("correo", strtolower($this->request->getVar("correo")))->first();
             //Busco informacióndel usuario
             $userdata = $userModel->data_user(strtolower($_POST['correo']));
-            
+
             //valido si existe un usuario
             if (!empty($userdata)) {
 
@@ -141,18 +142,24 @@ class User extends ResourceController
                     $token = JWT::encode($payload, $key);
 
                     $response = [
-                        'status' => 200,
+                        'status' => 201,
                         'error' => FALSE,
                         'messages' => 'Usuario logeado satisfactoriamente',
                         'token' => $token
                     ];
+                    session_start();
+                    $_SESSION['usuario'] = serialize($token);
+                    return $this->respondCreated($response);
+                    header('Location: ' . base_url() . 'Home');
+                    ob_end_flush();
+
                     //return Home::index();
                     //$this->session->destroy();
-                    
-				    //echo $this->session->get('token');
+
+                    //echo $this->session->get('token');
                     //header('Location: ' . base_url() . 'Home');
-				    //ob_end_flush();
-                    return $this->respondCreated($response);
+                    //ob_end_flush();
+                    //return $this->respondCreated($response);
                 } else {
 
                     $response = [
@@ -160,6 +167,8 @@ class User extends ResourceController
                         'error' => TRUE,
                         'messages' => 'Detos Incorrectos'
                     ];
+                    session_destroy();
+				    //$this->index();
                     return $this->respond($response);
                 }
             } else {
@@ -168,6 +177,8 @@ class User extends ResourceController
                     'error' => TRUE,
                     'messages' => 'Usuario no encontrado'
                 ];
+                session_destroy();
+				//$this->index();
                 return $this->respond($response);
             }
         } catch (\Exception $e) {
@@ -204,4 +215,11 @@ class User extends ResourceController
             return $this->respondCreated($response);
         }
     }
+
+    function cerrarSesion() {
+		session_start();
+		unset($_SESSION['usuario']);
+        return redirect()->to('Login');
+	  }
+
 }

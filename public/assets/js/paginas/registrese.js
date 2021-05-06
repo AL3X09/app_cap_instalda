@@ -15,17 +15,25 @@ $(document).ready(function () {
 
 
 function guardar() {
-  console.log('hola');
-  //console.log($('#formRegistro').serialize());
-  /*
+  
   $.ajax({
-    url: baseUrl + 'api/register',
+    url: 'api/register',
     method: 'POST',
     data: $('#formRegistro').serialize(),
     success: function (data) {
       console.log(data);
+      if(data.status=='201'){
+        console.log(data);
+        alert(data.messages);
+        window.location.href = "/Login";
+        
+      } else {
+          alert(data.messages);
+        
+      }
+      
     }
   });
-  */
+  
   
 }

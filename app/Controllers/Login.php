@@ -17,7 +17,6 @@ class Login extends BaseController {
 		echo view('login_template/main_header');
 		echo view('login');
 		echo view('login_template/footer');
-		
 	}
 	
 }
