@@ -7,12 +7,7 @@
                 <img src="<?=base_url();?>/assets/img/logo_login.png" class="img-fluid" alt="Responsive image" />
             </div>
         </div>
-        <div class="col-md-12">
-
-            <div class="text-center">
-                <img src="<?=base_url();?>/assets/img/logo_login2.png" class="img-fluid" alt="Responsive image" />
-            </div>
-        </div>
+        
     </div>
 
     <div class="row text-center">

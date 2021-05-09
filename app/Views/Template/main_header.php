@@ -1,39 +1,40 @@
 <!-- Main header -->
-		<div class="main-header">
-			<!-- Logo Header -->
-			<div class="logo-header" data-background-color="blue">
-				
-				<a href="index.html" class="logo">
-					<img src="<?=base_url();?>/assets/img/logo.png" alt="navbar brand" class="navbar-brand">
-				</a>
-				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon">
-						<i class="icon-menu"></i>
-					</span>
-				</button>
-				<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
-				<div class="nav-toggle">
-					<button class="btn btn-toggle toggle-sidebar">
-						<i class="icon-menu"></i>
-					</button>
-				</div>
-			</div>
-			<!-- End Logo Header -->
+<div class="main-header">
+	<!-- Logo Header -->
+	<div class="logo-header" data-background-color="blue">
+		<div class="text-center">
+			<a href="index.html" class="logo">
+				<img src="<?= base_url(); ?>/assets/img/logo.png" alt="navbar brand" class="navbar-brand">
+			</a>
+		</div>
+		<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon">
+				<i class="icon-menu"></i>
+			</span>
+		</button>
+		<button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+		<div class="nav-toggle">
+			<button class="btn btn-toggle toggle-sidebar">
+				<i class="icon-menu"></i>
+			</button>
+		</div>
+	</div>
+	<!-- End Logo Header -->
 
-			<!-- Navbar Header -->
-			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
-				
-				<div class="container-fluid">
-					<div class="collapse" id="search-nav">
-						
-					</div>
-					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item toggle-nav-search hidden-caret">
-							<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-								<i class="fa fa-search"></i>
-							</a>
-						</li>
-						<!--<li class="nav-item dropdown hidden-caret">
+	<!-- Navbar Header -->
+	<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+
+		<div class="container-fluid">
+			<div class="collapse" id="search-nav">
+
+			</div>
+			<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+				<li class="nav-item toggle-nav-search hidden-caret">
+					<a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+						<i class="fa fa-search"></i>
+					</a>
+				</li>
+				<!--<li class="nav-item dropdown hidden-caret">
 							<a class="nav-link dropdown-toggle" href="#" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<i class="fa fa-envelope"></i>
 							</a>
@@ -214,37 +215,37 @@
 								</div>
 							</div>
 						</li>-->
-						<li class="nav-item dropdown hidden-caret">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-								<div class="avatar-sm">
-									<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+				<li class="nav-item dropdown hidden-caret">
+					<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+						<div class="avatar-sm">
+							<img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+						</div>
+					</a>
+					<ul class="dropdown-menu dropdown-user animated fadeIn">
+						<div class="dropdown-user-scroll scrollbar-outer">
+							<li>
+								<div class="user-box">
+									<div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
+									<div class="u-text">
+										<h4>Hizrian</h4>
+										<p class="text-muted">hello@example.com</p>
+									</div>
 								</div>
-							</a>
-							<ul class="dropdown-menu dropdown-user animated fadeIn">
-								<div class="dropdown-user-scroll scrollbar-outer">
-									<li>
-										<div class="user-box">
-											<div class="avatar-lg"><img src="../assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
-											<div class="u-text">
-												<h4>Hizrian</h4>
-												<p class="text-muted">hello@example.com</p>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Perfil</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Configuración</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="api/logout">Salir</a>
-									</li>
-								</div>
-							</ul>
-						</li>
+							</li>
+							<li>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Perfil</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#">Configuración</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="logout">Salir</a>
+							</li>
+						</div>
 					</ul>
-				</div>
-			</nav>
-			<!-- End Navbar -->
+				</li>
+			</ul>
 		</div>
+	</nav>
+	<!-- End Navbar -->
+</div>
 <!-- End Main header -->

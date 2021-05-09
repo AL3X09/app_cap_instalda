@@ -5,7 +5,7 @@
                             <ul class="nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">
-									Idea y creación por: Henrry J. Forero< Fernandez
+									Idea y creación por: Henrry J. Forero Fernandez
                                     </a>
                                 </li>
                                 <li class="nav-item">

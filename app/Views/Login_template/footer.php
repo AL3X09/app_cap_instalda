@@ -2,7 +2,7 @@
 <footer class="footer">
     <div class="container-fluid">
         <div class="copyright ml-auto">
-            Idea y creación por: <a href="#">Henrry J. Forero< Fernandez</a>
+            Idea y creación por: <a href="#">Henrry J. Forero Fernandez</a>
         </div>
         <div class="copyright ml-auto">
             Desarrollado por: <a href="https://www.themekita.com">Alex Cifuentes Sanchez</a>
