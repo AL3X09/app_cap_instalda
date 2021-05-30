@@ -49,7 +49,7 @@ class Uss extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -79,7 +79,7 @@ class Uss extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, no existe el valor consultado',
+                        'messages' => 'Error, no existe el valor consultado',
                     ];
                 }
 
@@ -87,7 +87,7 @@ class Uss extends ResourceController{
                 $response = [
                     'status' => 404,
                     "error" => TRUE,
-                    'data' => 'Se esperaba la variable de consulta, Bad rquest',
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
                 ];
             }
             return $this->respond(json_encode($response));
@@ -279,7 +279,7 @@ class Uss extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -290,6 +290,42 @@ class Uss extends ResourceController{
 
     }
     
+    public function detail_x_fk(){
+        
+        try {
+            $ussModel = new UssModel();
+            //vedrifico si llega información del correo
+            if (!empty($_POST['pkhso'])) {
+                //Valido si el correo ya existe en la BD
+                $data_gus = $ussModel->get_data_x_fk($_POST['pkhso']);
+                //envio respuesta a vista
+                if (!empty($data_gus)) {
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $data_gus,
+                    ];
+                } else {
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'messages' => 'Error, no existe datos para el valor consultado',
+                    ];
+                }
+
+            }else{
+                $response = [
+                    'status' => 404,
+                    "error" => TRUE,
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
+                ];
+            }
+            return $this->respond(json_encode($response));
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
 
 
 }

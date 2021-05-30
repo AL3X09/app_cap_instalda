@@ -1,6 +1,7 @@
 //creado por Alex Cs 18/04/2021
 
 $(document).ready(function () {
+  $('#navtdatos').addClass("active");
   get_uus();
 });
 
@@ -108,7 +109,31 @@ function count_svo() {
     }
 
   });
-  count_progxestu();
+  count_programas();
+}
+
+function count_programas() {
+
+  $.ajax({
+    url: base_url+ '/api/programa/countall',
+    method: 'GET',
+    beforeSend: function () {
+    },
+    success: function (data) {
+      
+      if (data.status == '200') {
+        $("#cardprog").html(data.data);
+
+      } else {
+        Swal.fire(data.messages);
+      }
+    },
+    error: function (data) {
+      Swal.fire('Error al conectar y traer datos dinamicos');
+    }
+
+  });
+  //count_progxestu();
 }
 
 

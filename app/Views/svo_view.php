@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="get_gus()">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="">
                         Insertar
                     </button>
                     <table id="table_svo"></table>
@@ -38,20 +38,26 @@
                     <form id="forminsertsvo" method="post">
 
                         <div class="form-group row">
-                            <label for="gus" class="col-sm-2 col-form-label">Grupo de servicios</label>
+                            <label for="codigo" class="col-sm-2 col-form-label">Código</label>
                             <div class="col-sm-10">
+                                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código">
+                            </div>
+                        </div>
+                        <!--<div class="form-group row">
+                            <label for="gus" class="col-sm-12 col-form-label">Grupo de servicios</label>
+                            <div class="col-sm-12">
                                 <select class="form-control form-control" id="gus_select" name="pkgus" required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
-                            <label for="nombre" class="col-sm-2 col-form-label">Servicio ofertado</label>
-                            <div class="col-sm-10">
+                            <label for="nombre" class="col-sm-12 col-form-label">Servicio ofertado</label>
+                            <div class="col-sm-12">
                                 <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Servicio" required>
                             </div>
                         </div>
-                       
+
                     </form>
 
                 </div>

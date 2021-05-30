@@ -21,7 +21,11 @@ class Capacidaduus extends ResourceController{
     use ResponseTrait;
 
     public function index(){
-       
+        echo view('template/header');
+		echo view('template/main_header');
+		echo view('template/sidebar');
+		echo view('datosuss_view');
+		echo view('template/footer');
     }
 
     public function getallCapuss(){
@@ -30,13 +34,13 @@ class Capacidaduus extends ResourceController{
             $capacidaduusModel = new CapacidaduusModel();
             
             //vedrifico si llega información del correo
-            $exis_estd = $estandModel->get_all_estandar();
-                if (!empty($exis_estd)) {
+            $exis_capuss = $capacidaduusModel->get_all_capacidaduus();
+                if (!empty($exis_capuss)) {
 
                     $response = [
                         'status' => 200,
                         "error" => FALSE,
-                        'data' => $exis_estd,
+                        'data' => $exis_capuss,
                     ];
 
                 } else {
@@ -58,17 +62,17 @@ class Capacidaduus extends ResourceController{
     public function detailsCapuss(){
         
         try {
-            $estandModel = new EstandarModel();
+            $capacidaduusModel = new CapacidaduusModel();
             //vedrifico si llega información del correo
-            if (!empty($_POST['idstand'])) {
+            if (!empty($_POST['pkcapauss'])) {
                 //Valido si el correo ya existe en la BD
-                $data_estand = $estandModel->get_data_estandar($_POST['idstand']);
+                $data_capauss = $capacidaduusModel->get_data_capacidaduus($_POST['pkcapauss']);
                 //envio respuesta a vista
-                if (!empty($data_estand)) {
+                if (!empty($data_capauss)) {
                     $response = [
                         'status' => 200,
                         "error" => FALSE,
-                        'data' => $data_estand,
+                        'data' => $data_capauss,
                     ];
                 } else {
                     $response = [
@@ -97,13 +101,13 @@ class Capacidaduus extends ResourceController{
         try {
             $capacidaduusModel = new CapacidaduusModel();
              //vedrifico si llega información obligatoria
-             if (!empty($_POST['pkgus']) && !empty($_POST['pksvo']) && !empty($_POST['pkprog']) ) {
+             if (!empty($_POST['pkrel']) ) {
 
                 $data = [
                     "num_cama_uus" => $this->request->getVar("numcamuus"),
                     "num_consultorio_uus" => $this->request->getVar("numespauus"),
                     "num_paciente_uus" => $this->request->getVar("numpacuus"),
-                    "fk_tbl_programa" => $this->request->getVar("pkprog"),
+                    "fk_tbl_uss_gus_svo_pro" => $this->request->getVar("pkrel"),
                 ];
 
                    //consulto el numero de filas para armar el consecutivo
@@ -111,12 +115,15 @@ class Capacidaduus extends ResourceController{
                    $data['consec'] = ($count_capauus+1);
                    //Envio datos al modelo para insertar
                    $insert_capauss = $capacidaduusModel->insert_capacidaduus($data);
-
+                   //print_r($insert_capauss);
+                   //$ultinsert_id = $capacidaduusModel->insertID();
+                   
                    if ($insert_capauss) {
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
                            'messages' => 'Capacidad de la unidad de servicios creado',
+                           //'ultinsert_id' => $ultinsert_id,
                        ];
                    } else {
                        $response = [
@@ -148,31 +155,31 @@ class Capacidaduus extends ResourceController{
     public function updateCapuss(){
         
         try {
-            $progModel = new ProgramaModel();
+            $capacidaduusModel = new CapacidaduusModel();
              //vedrifico si llega información del correo
-             if (!empty($_POST['idprog']) && !empty($_POST['pksvo']) && !empty($_POST['programa']) && !empty($_POST['perfil']) ) {
+             if (!empty($_POST['pkrela']) && !empty($_POST['pkcapauss']) ) {
 
                 $data = [
-                    "id" => $this->request->getVar("idprog"),
-                    "programa" => $this->request->getVar("programa"),
-                    "perfil" => $this->request->getVar("perfil"),
-                    "pksvo" => $this->request->getVar("pksvo"),
+                    "id" => $this->request->getVar("pkcapauss"),
+                    "numpacuus" => $this->request->getVar("numpacuus"),
+                    "numespauus" => $this->request->getVar("numespauus"),
+                    "numcamuus" => $this->request->getVar("numcamuus"),
                 ];
                    //Envio datos al modelo para actualizar
-                   $update_svo = $progModel->update_programa($data);
+                   $update_capauss = $capacidaduusModel->update_capacidaduus($data);
 
-                   if ($update_svo) {
+                   if ($update_capauss) {
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
-                           'messages' => 'Servicio ofertado Actualizado',
+                           'messages' => 'Datos del servicio Actualizado',
                        ];
                    } else {
 
                        $response = [
                            'status' => 500,
                            "error" => TRUE,
-                           'messages' => 'Fallo al actualizar el Servicio ofertado',
+                           'messages' => 'Fallo al actualizar los Datos del servicio',
                        ];
                    }
                //}

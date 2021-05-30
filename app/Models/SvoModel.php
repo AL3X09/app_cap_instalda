@@ -24,6 +24,7 @@ class SvoModel extends Model
 	protected $allowedFields        = [
 		"consec",
 		"nombre_serv",
+		"codigo",
 	];
 
 	// Dates
@@ -33,7 +34,7 @@ class SvoModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
-	protected $foreingkey           = 'fk_tbl_grupo_serv';
+	//protected $foreingkey           = 'fk_tbl_grupo_serv';
 
 	// Validation
 	protected $validationRules      = [];
@@ -77,6 +78,73 @@ class SvoModel extends Model
 	public function get_all_svo()
 	{
 		$querye = $this->table($this->table)
+			->get()
+			->getResult();
+
+		return $querye;
+	}
+
+	public function get_data_svo($pk)
+	{
+		$querye = $this->table($this->table)
+			->where($this->primaryKey, $pk)
+			->get()
+			->getRowArray();
+		return $querye;
+	}
+
+	public function get_data_fkgus($fkgus)
+	{
+		$querye = $this->table($this->table)
+			->join('tbl_uss_u_gus_u_svo_u_prog AS REL', 'REL.fk_tbl_serv_ofertado = id_tbl_serv_ofertado')
+			->where('REL.fk_tbl_serv_ofertado =', $fkgus)
+			->get()
+			->getResult();
+		return $querye;
+	}
+
+	public function insert_svo($data)
+	{
+		$query = $this->db->table($this->table)->insert($data);
+		return $query ? true : false;
+	}
+
+	public function update_svo($data)
+	{
+		
+		$query = $this->db->table($this->table)
+			->set('nombre_serv', $data["nombre"])
+			->set('codigo', $data["codigo"])
+			->where($this->primaryKey, $data["id"])
+			->update();
+		return $query ? true : false;
+	}
+
+	//Eliminación logica
+	public function delete_svo($data)
+	{
+		$query = $this->db->table($this->table)
+			->set('is_active', 0)
+			->where($this->primaryKey, $data["id"])
+			->update();
+		return $query ? true : false;
+	}
+
+	public function count_all_svo()
+	{
+		$query = $this->table($this->table)
+					->countAllResults();
+		return $query;
+	}
+	
+}
+
+/**
+ * 
+ * OLD QUERYS
+ * public function get_all_svo()
+	{
+		$querye = $this->table($this->table)
 			->select($this->table . '.*,G.id_tbl_grup_servicio, G.grupo AS nombreg, G.codigo AS codigog')
 			->join('tbl_grup_servicio AS G', 'G.id_tbl_grup_servicio ='. $this->foreingkey)
 			->get()
@@ -104,39 +172,4 @@ class SvoModel extends Model
 			->getResult();
 		return $querye;
 	}
-
-	public function insert_svo($data)
-	{
-		$query = $this->db->table($this->table)->insert($data);
-		return $query ? true : false;
-	}
-
-	public function update_svo($data)
-	{
-		
-		$query = $this->db->table($this->table)
-			->set('nombre_serv', $data["nombre"])
-			->set($this->foreingkey, $data["pkgus"])
-			->where($this->primaryKey, $data["id"])
-			->update();
-		return $query ? true : false;
-	}
-
-	//Eliminación logica
-	public function delete_svo($data)
-	{
-		$query = $this->db->table($this->table)
-			->set('is_active', 0)
-			->where($this->primaryKey, $data["id"])
-			->update();
-		return $query ? true : false;
-	}
-
-	public function count_all_svo()
-	{
-		$query = $this->table($this->table)
-					->countAllResults();
-		return $query;
-	}
-	
-}
+ */

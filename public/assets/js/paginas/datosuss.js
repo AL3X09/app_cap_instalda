@@ -1,20 +1,21 @@
 //creado por Alex Cs 18/04/2021
-//NO USADO POR EL MOMENTO
+
 $(document).ready(function () {
-  
-  cargardataestand();
+  $("#base").addClass("show");
+  $('#btndtuss').addClass("active");
+  cargardatacapauss();
 });
 
-function cargardataestand() {
+function cargardatacapauss() {
 
   $.ajax({
-    url: base_url + '/api/capinstalada/alldata',
+    url: base_url + '/api/capacidaduus/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
     //console.log(res);//data=msg.data;
     if (res.status == '200') {
-      cargar_tablesstand(res.data);
+      cargar_tablecapauss(res.data);
     } else {
       //alert(data.messages);
       Swal.fire(res.data);
@@ -80,9 +81,8 @@ function get_gus(idgus) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url + '/api/gus/fkagrupado',
-    method: 'POST',
-    data: { pkuus: uus },
+    url: base_url + '/api/gus/alldata',
+    method: 'GET',
     beforeSend: function () {
     },
     success: function (data) {
@@ -124,9 +124,8 @@ function get_svo(idsvo) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url + '/api/svo/fkagrupado',
-    method: 'POST',
-    data: { pkgus: gus },
+    url: base_url + '/api/svo/alldata',
+    method: 'GET',
     beforeSend: function () {
     },
     success: function (data) {
@@ -167,9 +166,8 @@ function get_programa(idprog) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url + '/api/programa/fkagrupado',
-    method: 'POST',
-    data: { pksov: sov },
+    url: base_url + '/api/programa/alldata',
+    method: 'GET',
     beforeSend: function () {
     },
     success: function (data) {
@@ -177,14 +175,15 @@ function get_programa(idprog) {
       if (data.status == '200') {
 
         $.each(data.data, function (k, v) {
-          $("#prog_select").append('<option value=' + v.id_tbl_programa + '>' + v.nombre_prog + '-' + v.perfil_est + '</option>');
+          $("#prog_select").append('<option value=' + v.id_tbl_programa + '>' + v.nombre_prog + '</option>');
+          //$('#perf_select').val(v.fk_tbl_uss_gus_svo_pro);
 
           if ($("#prog_selectd").length) {
-            $("#prog_selectd").append('<option value=' + v.id_tbl_programa + '>' + v.nombre_prog + '-' + v.perfil_est + '</option>');
+            $("#prog_selectd").append('<option value=' + v.id_tbl_programa + '>' + v.nombre_prog + '</option>');
             $("#prog_selectd").val(idprog);
           }
         });
-
+        
       } else {
         Swal.fire(data.messages);
       }
@@ -197,8 +196,88 @@ function get_programa(idprog) {
 
 }
 
-function cargar_tablesstand(data) {
-  $('#table_prog').bootstrapTable({
+function get_perfil_est(idprog) {
+  //obtengo el valor del select
+  //var sov = $('#svo_select').val();
+
+  //limpio select
+  $('#perf_select')
+    .find('option')
+    .remove()
+    .end()
+    .append('<option value="">Seleccione</option>')
+    .val('');
+  //cargo select
+  $.ajax({
+    url: base_url + '/api/perfilest/alldata',
+    method: 'GET',
+    beforeSend: function () {
+    },
+    success: function (data) {
+
+      if (data.status == '200') {
+
+        $.each(data.data, function (k, v) {
+          $("#perf_select").append('<option value=' + v.id_tbl_perfil_est + '>' + v.nombre + '</option>');
+
+          /*if (idprog>0) {
+            //$("#prog_selectd").append('<option value=' + v.id_tbl_programa + '>' + v.nombre_prog + '-' + v.perfil_est + '</option>');
+            $("#perf_select").val(idprog);
+          }*/
+        });
+      } else {
+        Swal.fire(data.messages);
+      }
+    },
+    error: function (data) {
+      Swal.fire('Error al conectar y traer datos dinamicos del programa');
+    }
+
+  });
+
+}
+
+function get_data_estandar() {
+
+  var uss = $('#uus_select').val();
+  var gus = $('#gus_select').val();
+  var sov = $('#svo_select').val();
+  var prog = $('#prog_select').val();
+  var perf = $('#perf_select').val();
+
+  $.ajax({
+    url: base_url + '/api/estandar/fkagrupado',
+    method: 'POST',
+    data: {fkuss: uss, fkgus: gus, fksov: sov, fkprog: prog, fkperf: perf},
+    beforeSend: function () {
+    },
+    success: function (data) {
+
+      if (data.status == '200') {
+
+        $.each(data.data, function (k, v) {
+          $('#numesth').val(v.num_estudiantes);
+          $('#numest').val(v.num_estudiantes);
+          $('#numpacih').val(v.num_pacientes);
+          $('#numpaci').val(v.num_pacientes);
+          $('#numestydoch').val(v.num_estudiante_x_docente);
+          $('#numestydoc').val(v.num_estudiante_x_docente);
+          $('#pkrel').val(v.fk_tbl_uss_gus_svo_pro);
+        });
+        
+      } else {
+        Swal.fire(data.messages);
+      }
+    },
+    error: function (data) {
+      Swal.fire('Error al conectar y traer datos dinamicos del programa');
+    }
+
+  });
+}
+
+function cargar_tablecapauss(data) {
+  $('#table_datos_uss').bootstrapTable({
     //exportDataType: $(this).val(),
     exportTypes: ['csv', 'excel'],
     columns: [
@@ -227,7 +306,7 @@ function cargar_tablesstand(data) {
         title: 'Perfil del estudiante'
       },
       //data1
-      {
+      /*{
         field: 'num_estudiantes',
         title: 'Núm estudiantes'
       },
@@ -238,7 +317,7 @@ function cargar_tablesstand(data) {
       {
         field: 'num_estudiante_x_docente',
         title: 'Número de estudiantes por cada docente'
-      },
+      },*/
       //data2
       {
         field: 'num_cama_uus',
@@ -251,26 +330,7 @@ function cargar_tablesstand(data) {
       {
         field: 'num_paciente_uus',
         title: 'Número de pacientes en la USS'
-      },
-      //data3
-      {
-        align: 'center',
-        valign: 'middle',
-        field: 'capa_max_estud_cama',
-        title: 'Número de estudiantes por cada docenteCapacidad máxima de estudiantes según No de camas  de la USS',
-      },
-      {
-        field: 'capa_max_estud_consulta',
-        title: 'Capacidad máxima de estudiantes según No de consultorios y/o unidades odontológicas  de la USS'
-      },
-      {
-        field: 'capa_max_estud_paciente',
-        title: 'Capacidad máxima de estudiantes según No de pacientes'
-      },
-      {
-        field: 'num_docen_requiere',
-        title: 'Número de docentes requeridos'
-      },
+      },      
       {
         field: 'is_active',
         title: 'Estado'
@@ -282,8 +342,8 @@ function cargar_tablesstand(data) {
         valign: 'middle',
         clickToSelect: false,
         formatter: function (value, row, index) {
-          return '<button type="button" class="btn btn-icon btn-round btn-success" onclick="updatestand(' + row.id_tbl_estandar + ')"><i class="fa icon-refresh"></i></button>' +
-            '<button type="button" class="btn btn-icon btn-round btn-danger" onclick="deletestand(' + row.id_tbl_estandar + ')"><i class="fa icon-trash"></i></button>';
+          return '<button type="button" class="btn btn-icon btn-round btn-success" onclick="updatecapcuss(' + row.id_tbl_capacidad_uus + ')"><i class="fa icon-refresh"></i></button>' +
+            '<button type="button" class="btn btn-icon btn-round btn-danger" onclick="deletestand(' + row.id_tbl_capacidad_uus + ')"><i class="fa icon-trash"></i></button>';
         }
       },
     ],
@@ -293,59 +353,19 @@ function cargar_tablesstand(data) {
 
 }
 
-function insertestd() {
-
-  $.ajax({
-    url: base_url + '/api/estandar/crear',
-    method: 'POST',
-    data: $("#formcapinstalada").serialize(),
-    beforeSend: function () {
-    },
-    success: function (data) {
-
-      if (data.status == '201') {
-
-        swal.fire({
-          title: "",
-          text: data.messages,
-          type: "success",
-          timer: 4000,
-          showConfirmButton: false
-        });
-        //window.setTimeout(function () { }, 4000);
-        //location.reload();
-        insertcapuus();
-      } else {
-        Swal.fire(data.messages);
-      }
-
-    }
-  });
-
-}
-
-function insertcapuusNN() {
+function insertcapuus() {
 
   $.ajax({
     url: base_url + '/api/capacidaduus/crear',
     method: 'POST',
-    data: $("#formcapinstalada").serialize(),
+    data: $("#formcapaciuss").serialize(),
     beforeSend: function () {
     },
     success: function (data) {
 
       if (data.status == '201') {
-
-        swal.fire({
-          title: "",
-          text: data.messages,
-          type: "success",
-          timer: 4000,
-          showConfirmButton: false
-        });
-        //window.setTimeout(function () { }, 4000);
-        //location.reload();
-        insertcapinsta();
+        insertcapmedinsta();
+        
       } else {
         Swal.fire(data.messages);
       }
@@ -355,12 +375,15 @@ function insertcapuusNN() {
 
 }
 
-function insertcapinsta() {
+function insertcapmedinsta(pkrela) {
+
+  //var data_save = $('#formcapaciuss').serializeArray();
+    //data_save.push({ pkrela: pkrela});
 
   $.ajax({
-    url: base_url + '/api/capinstalada/crear',
+    url: base_url + '/api/capmedinstall/crear',
     method: 'POST',
-    data: $("#formcapinstalada").serialize(),
+    data: $("#formcapaciuss").serialize(),
     beforeSend: function () {
     },
     success: function (data) {
@@ -385,7 +408,132 @@ function insertcapinsta() {
 
 }
 
-function updatestand(params) {
+
+function updatecapcuss(id) {
+
+  $.ajax({
+    url: base_url+ '/api/capacidaduus/buscar',
+    method: 'POST',
+    data: { pkcapauss: id },
+    beforeSend: function () {
+    },
+    success: function (data) {
+      
+      if (data.status == '200') {
+        
+        //console.log(data.data.fk_tbl_serv_hospital);
+        Swal.fire({
+          title: 'Actualizar',
+          html: '<form id="formupdatecapauss" method="post">' +
+          '<label for="pkuss" class="col-sm-12 col-form-label">Unidad de servicios</label>'+
+          '<select class="form-control" id="uus_selectd" name="pkuus" required disabled>' +
+          '</select>' +
+          '<label for="pkuss" class="col-sm-12 col-form-label">Grupo</label>'+
+          '<select class="form-control" id="gus_selectd" name="pkgus" required disabled>' +
+          '</select>' +
+          '<label for="pkuss" class="col-sm-12 col-form-label">Servicio de oferta</label>'+
+          '<select class="form-control" id="svo_selectd" name="pksvo" required disabled>' +
+          '</select>' +
+          '<label for="pkuss" class="col-sm-12 col-form-label">Programa</label>'+
+          '<select class="form-control" id="prog_selectd" name="pkprog" required disabled>' +
+          '</select>' +
+          '<label for="pkuss" class="col-sm-12 col-form-label">Perfil</label>'+
+          '<select class="form-control" id="perf_selectd" name="pkperf" required disabled>' +
+          '</select>' +
+          '<!--SECCION DEL ESTANDAR-->'+
+          '<label for="data" class="col-sm-12 col-form-label">*Según los datos anteriormente seleccionados se cargaran <br/> los datos correspondientes a su estandar</label>'+
+          '<label for="numest" class="col-form-label">Núm. Estudiantes</label>'+
+          '<input type="text" class="form-control" id="numest" name="numest" disabled required value="' + data.data.num_estudiantes + '">'+
+          '<label for="numest" class="col-form-label">Núm. de de pacientes en relación<br/>al estadar de estudiantes</label>'+
+          '<input type="text" class="form-control" id="numpaci" name="numpaci" disabled required value="' + data.data.num_pacientes + '">'+
+          '<label for="numest" class="col-form-label">Núm. Estudiantes</label>'+
+          '<input type="text" class="form-control" id="numestydoc" name="numestydoc" disabled required value="' + data.data.num_estudiante_x_docente + '">'+
+          
+          '<hr />'+
+          '<!--SECCION DE LOS SERVICIOS-->'+
+          '<label for="numcamuus" class="col-form-label">Núm. espacios del servicio en la unidad de servicios.</label>'+
+          '<input type="text" class="form-control" id="numcamuus" name="numcamuus" required value="' + data.data.num_cama_uus + '">'+
+          '<label for="numcamuus" class="col-form-label">Num. Consultorios y/o unidades.</label>'+
+          '<input type="text" class="form-control" id="numespauus" name="numespauus" required value="' + data.data.num_consultorio_uus + '">'+
+          '<label for="numcamuus" class="col-form-label">Núm. estudiante por cada docente.</label>'+
+          '<input type="text" class="form-control" id="numpacuus" name="numpacuus" required value="' + data.data.num_paciente_uus + '">'+
+          '<input type="hidden" class="form-control" id="pkrela" name="pkrela" required value="' + data.data.fk_tbl_uss_gus_svo_pro + '">'+
+          '<input type="hidden" class="form-control" id="pkcapauss" name="pkcapauss" required value="' + data.data.id_tbl_capacidad_uus + '">'+
+          '</form>',
+          confirmButtonText: 'actualizar',
+          focusConfirm: false,
+          didOpen() {
+            $("#uus_selectd").append('<option value=' + data.data.id_tbl_uni_serv_salud + '>' + data.data.nombreuss + '</option>');
+            $("#gus_selectd").append('<option value=' + data.data.id_tbl_grup_servicio + '>' + data.data.grupo + '</option>');
+            $("#svo_selectd").append('<option value=' + data.data.id_tbl_serv_ofertado + '>' + data.data.nombreserv + '</option>');
+            $("#prog_selectd").append('<option value=' + data.data.id_tbl_programa + '>' + data.data.programa + '</option>');
+            $("#perf_selectd").append('<option value=' + data.data.id_tbl_perfil_est + '>' + data.data.perfil_est + '</option>');
+            /*
+            get_uss(data.data.id_tbl_uni_serv_salud);
+            get_gus(data.data.id_tbl_grup_servicio);
+            get_svo(data.data.id_tbl_serv_ofertado);
+            get_programa(data.data.id_tbl_programa);
+            get_perfil_est(data.data.id_tbl_perfil_est);*/
+
+          },         
+          preConfirm: () => {
+            
+            /*const grupo = Swal.getPopup().querySelector('#grupo').value
+            //const form = Swal.getPopup().querySelector('#formupdatehso')
+            //const password = Swal.getPopup().querySelector('#password').value
+            if (!grupo) {
+              Swal.showValidationMessage('Diligencie el campo de Grupo')
+            } else
+              return { grupo: grupo }*/
+          },
+          //$("#hso_selectd").val(data.data.fk_tbl_serv_hospital).change();
+        }).then((result) => {
+
+          if (result.isConfirmed) {
+            //ajax update
+            $.ajax({
+              url: 'api/capacidaduus/editar',
+              method: 'POST',
+              data: $("#formupdatecapauss").serialize(),
+              beforeSend: function () {
+              },
+              success: function (data) {
+
+                if (data.status == '201') {
+
+                  updatecapamax();
+
+                  swal.fire({
+                    title: data.messages,
+                    text: "",
+                    type: "success",
+                    timer: 5000,
+                    showConfirmButton: false
+                  });
+                  window.setTimeout(function () { }, 5000);
+                  location.reload();
+
+                } else {
+                  Swal.fire(data.messages);
+                }
+
+              }
+            });
+          }
+
+        })
+
+      } else {
+        Swal.fire(data.messages);
+      }
+      
+      
+    }
+  });
+  //get_hso();
+}
+
+function updatestand0(params) {
   $('#exampleModal').modal('toggle');
   $('#exampleModal').modal('show');
   //$('#exampleModal').modal('hide');

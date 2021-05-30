@@ -8,6 +8,7 @@ use CodeIgniter\RESTful\ResourceController;
 use Exception;
 use \Firebase\JWT\JWT;
 use App\Models\EstandarModel;
+use App\Models\UssGusProgPerfModel;
 
 
 // headers
@@ -49,7 +50,7 @@ class Estandar extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -79,7 +80,7 @@ class Estandar extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, no existe el valor consultado',
+                        'messages' => 'Error, no existe el valor consultado',
                     ];
                 }
 
@@ -102,10 +103,13 @@ class Estandar extends ResourceController{
         try {
             $estandModel = new EstandarModel();
              //vedrifico si llega información obligatoria
-             if (!empty($_POST['pkgus']) && !empty($_POST['pksvo']) && !empty($_POST['pkprog']) ) {
+             if (!empty($_POST['pkgus']) && !empty($_POST['pksvo']) && !empty($_POST['pkprog']) && !empty($_POST['pkperf'])) {
 
                 $data = [
+                    "fk_tbl_programa" => $this->request->getVar("pkgus"),
+                    "fk_tbl_programa" => $this->request->getVar("pksvo"),
                     "fk_tbl_programa" => $this->request->getVar("pkprog"),
+                    "fk_tbl_programa" => $this->request->getVar("pkperf"),
                     "num_estudiantes" => $this->request->getVar("numest"),
                     "num_pacientes" => $this->request->getVar("numpaci"),
                     "num_estudiante_x_docente" => $this->request->getVar("numestydoc"),
@@ -151,34 +155,36 @@ class Estandar extends ResourceController{
 
     }
 
-    public function updateProg(){
+    public function updateEst(){
         
         try {
-            $progModel = new ProgramaModel();
+            $estandModel = new EstandarModel();
              //vedrifico si llega información del correo
-             if (!empty($_POST['idprog']) && !empty($_POST['pksvo']) && !empty($_POST['programa']) && !empty($_POST['perfil']) ) {
+             if (!empty($_POST['idestand']) && !empty($_POST['idrelaci'])) {
 
                 $data = [
-                    "id" => $this->request->getVar("idprog"),
-                    "programa" => $this->request->getVar("programa"),
-                    "perfil" => $this->request->getVar("perfil"),
-                    "pksvo" => $this->request->getVar("pksvo"),
+                    "id" => $this->request->getVar("idestand"),
+                    "numest" => $this->request->getVar("numest"),
+                    "numpaci" => $this->request->getVar("numpaci"),
+                    "numestydoc" => $this->request->getVar("numestydoc"),
+                    "observa" => $this->request->getVar("observa"),
+                    "fkrelaci" => $this->request->getVar("idrelaci"),
                 ];
                    //Envio datos al modelo para actualizar
-                   $update_svo = $progModel->update_programa($data);
+                   $update_svo = $estandModel->update_estandar($data);
 
                    if ($update_svo) {
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
-                           'messages' => 'Servicio ofertado Actualizado',
+                           'messages' => 'Estandar Actualizado',
                        ];
                    } else {
 
                        $response = [
                            'status' => 500,
                            "error" => TRUE,
-                           'messages' => 'Fallo al actualizar el Servicio ofertado',
+                           'messages' => 'Fallo al actualizar el Estandar',
                        ];
                    }
                //}
@@ -250,6 +256,43 @@ class Estandar extends ResourceController{
 
     }
 
+    public function detail_fk(){
+        
+        try {
+            $estandModel = new EstandarModel();
+            //vedrifico si llega información del correo
+            if (!empty($_POST['fkuss']) && !empty($_POST['fkgus']) && !empty($_POST['fksov']) && !empty($_POST['fkprog']) && !empty($_POST['fkperf']) ) {
+                //Valido si el correo ya existe en la BD
+                $data_gus = $estandModel->get_data_x_fk($_POST['fkuss'], $_POST['fkgus'], $_POST['fksov'], $_POST['fkprog'], $_POST['fkperf']);
+                //envio respuesta a vista
+                if (!empty($data_gus)) {
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $data_gus,
+                    ];
+                } else {
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'messages' => 'Error, no existe el valor consultado',
+                    ];
+                }
+
+            }else{
+                $response = [
+                    'status' => 404,
+                    "error" => TRUE,
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
+                ];
+            }
+            return $this->respond(json_encode($response));
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
+
     public function graph_Estudi(){
 
         try {
@@ -270,7 +313,7 @@ class Estandar extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 

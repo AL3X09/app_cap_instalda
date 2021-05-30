@@ -14,7 +14,7 @@ function login() {
   //console.log('holalogin')
 
   $.ajax({
-    url: base_url+'/api/login',
+    url: base_url+'/api/logeo',
     method: 'POST',
     data: $("#formlogin").serialize(),
     beforeSend: function () {

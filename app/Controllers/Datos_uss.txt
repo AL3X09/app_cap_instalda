@@ -1,0 +1,97 @@
+<?php 
+namespace App\Controllers;
+
+
+use Config\Services;
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\RESTful\ResourceController;
+use Exception;
+use \Firebase\JWT\JWT;
+use App\Models\CapacidaduusModel;
+
+// headers
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=utf8");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control");
+
+//grupo de la unidad de servicios de salud
+class Datos_uss extends ResourceController{
+    
+    use ResponseTrait;
+
+    public function index1(){
+
+        echo view('template/header');
+		echo view('template/main_header');
+		echo view('template/sidebar');
+		echo view('datosuss_view');
+		echo view('template/footer');
+    }
+
+    public function getallDatainstalada1(){
+        
+        try {
+            $datosussModel = new CapacidaduusModel();
+            
+            //vedrifico si llega información del correo
+            $exis_capainsta = $datosussModel->get_all_capainsta();
+                if (!empty($exis_capainsta)) {
+
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $exis_capainsta,
+                    ];
+
+                } else {
+
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'data' => 'Error, tabla sin datos',
+                    ];
+                }
+
+            return $this->respond($response);
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
+
+   
+    public function graph_Docen1(){
+
+        try {
+            $capainstaModel = new CapacidadinstaladaModel();
+            
+            //vedrifico si llega información del correo
+            $count_docente = $capainstaModel->cont_capaiest_x_prog();
+                if (!empty($count_docente)) {
+
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $count_docente,
+                    ];
+
+                } else {
+
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'data' => 'Error, tabla sin datos',
+                    ];
+                }
+
+            return $this->respond($response);
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+        
+    }
+
+
+
+
+}

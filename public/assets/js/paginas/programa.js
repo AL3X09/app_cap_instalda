@@ -1,6 +1,8 @@
 //creado por Alex Cs 18/04/2021
 
 $(document).ready(function () {
+  $("#base").addClass("show");
+  $('#btnprog').addClass("active");
   cargardataprog();
 });
 
@@ -28,18 +30,18 @@ function cargar_tablesprog(data) {
     showRefresh: false,
     buttonsAlign: 'left',
     columns: [
-      {
+      /*{
         field: 'nombres',
         title: 'servicio Ofertado'
-      }, 
+      },*/ 
       {
         field: 'nombre_prog',
         title: 'Programa'
       },
-      {
+      /*{
         field: 'nombreper',
         title: 'Perfil del estudiante'
-      },
+      },*/
       {
         field: 'is_active',
         title: 'Estado'
@@ -187,22 +189,16 @@ async function updateprog($id) {
         Swal.fire({
           title: 'Actualizar',
           html: '<form id="formupdateprog" method="post">' +
-            '<label for="svo" class="col-form-label">Servicio ofertado</label>'+
-            '<select class="form-control form-control" id="svo_selectd" name="pksvo" required>' +
-            '</select>' +
             '<label for="programa" class="col-form-label">Programa</label>'+
             '<input type="text" id="programa" name="programa" class="swal2-input" value="' + data.data.nombre_prog + '">' +
-            '<label for="svo" class="col-form-label">Perfil</label>'+
-            '<select class="form-control form-control" id="perfil_selectd" name="perfil" required>' +
-            '</select>' +
             '<input type="hidden" id="idprog" name="idprog" class="swal2-input"  value="' + data.data.id_tbl_programa + '">' +
             '</form>',
           confirmButtonText: 'actualizar',
           focusConfirm: false,
           didOpen() {
             //console.log(data.data.fk_tbl_grupo_serv);
-            get_svo(data.data.fk_tbl_serv_ofertado);
-            get_perfil(data.data.fk_tbl_perfil_est);
+            //get_svo(data.data.fk_tbl_serv_ofertado);
+            //get_perfil(data.data.fk_tbl_perfil_est);
 
           },         
           preConfirm: () => {

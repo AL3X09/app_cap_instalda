@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="get_hso()">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="">
                         Insertar
                     </button>
                     <table id="table_uss"></table>
@@ -38,7 +38,7 @@
                     <form id="forminsertuss" method="post">
 
                         <div class="form-group row">
-                            <label for="hso" class="col-sm-2 col-form-label">HSO</label>
+                            <label for="hso" class="col-sm-2 col-form-label">Sub Red</label>
                             <div class="col-sm-10">
                                 <select class="form-control form-control" id="hso_select" name="hso" required>
                                     <option value="">Seleccione</option>

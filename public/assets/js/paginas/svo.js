@@ -1,13 +1,15 @@
 //creado por Alex Cs 18/04/2021
 
 $(document).ready(function () {
+  $("#base").addClass("show");
+  $('#btnsvo').addClass("active");
   cargardatasvo();
 });
 
 function cargardatasvo() {
 
   $.ajax({
-    url: base_url+ '/api/svo/alldata',
+    url: base_url + '/api/svo/alldata',
     method: 'get',
     contentType: 'application/json',
   }).done(function (res) {
@@ -29,13 +31,14 @@ function cargar_tablesvo(data) {
     buttonsAlign: 'left',
     columns: [
       {
+        field: 'codigo',
+        title: 'Código'
+      },
+      {
         field: 'nombre_serv',
         title: 'Nombre servicio'
-      }, 
-      {
-        field: 'nombreg',
-        title: 'Grupo de Servicios'
       },
+      
       {
         field: 'is_active',
         title: 'Estado'
@@ -59,7 +62,7 @@ function cargar_tablesvo(data) {
 
 
 }
-
+/**SE DEJA DE USAR */
 function get_gus($idgus) {
   //limpio select
   $('#gus_select')
@@ -70,7 +73,7 @@ function get_gus($idgus) {
     .val('');
   //cargo select
   $.ajax({
-    url: base_url+ '/api/gus/alldata',
+    url: base_url + '/api/gus/alldata',
     method: 'GET',
     beforeSend: function () {
     },
@@ -79,10 +82,10 @@ function get_gus($idgus) {
       if (data.status == '200') {
 
         $.each(data.data, function (k, v) {
-          $("#gus_select").append('<option value=' + v.id_tbl_grup_servicio + '>' +v.numero + '-'+ v.grupo + '</option>');
-          
+          $("#gus_select").append('<option value=' + v.id_tbl_grup_servicio + '>' + v.numero + '-' + v.grupo + '</option>');
+
           if ($("#gus_selectd").length) {
-            $("#gus_selectd").append('<option value=' + v.id_tbl_grup_servicio + '>' +v.numero + '-'+ v.grupo + '</option>');
+            $("#gus_selectd").append('<option value=' + v.id_tbl_grup_servicio + '>' + v.numero + '-' + v.grupo + '</option>');
             $("#gus_selectd").val($idgus);
           }
         });
@@ -102,7 +105,7 @@ function get_gus($idgus) {
 function insertsvo() {
 
   $.ajax({
-    url: base_url+ '/api/svo/crear',
+    url: base_url + '/api/svo/crear',
     method: 'POST',
     data: $("#forminsertsvo").serialize(),
     beforeSend: function () {
@@ -132,34 +135,33 @@ function insertsvo() {
 async function updatesvo($id) {
 
   $.ajax({
-    url: base_url+ '/api/svo/buscar',
+    url: base_url + '/api/svo/buscar',
     method: 'POST',
     data: { pksvo: $id },
     beforeSend: function () {
     },
     success: function (data) {
-      
+
       if (data.status == '200') {
-        
+
         //console.log(data.data.fk_tbl_serv_hospital);
         Swal.fire({
           title: 'Actualizar',
           html: '<form id="formupdatesvo" method="post">' +
-            '<label for="gus" class="col-form-label">Grupo</label>'+
-            '<select class="form-control form-control" id="gus_selectd" name="pkgus" required>' +
-            '</select>' +
-            '<label for="nombre" class="col-form-label">Servicio ofertado</label>'+
+            '<label for="codigo" class="col-form-label">Código</label>' +
+            '<input type="text" id="codigo" name="codigo" class="swal2-input" value="' + data.data.codigo + '">' +
+            '<label for="nombre" class="col-form-label">Servicio ofertado</label>' +
             '<input type="text" id="nombre" name="nombre" class="swal2-input" value="' + data.data.nombre_serv + '">' +
-            '<input type="hidden" id="idsvo" name="idsvo" class="swal2-input"  value="' + data.data.id_tbl_grup_servicio + '">' +
+            '<input type="hidden" id="idsvo" name="idsvo" class="swal2-input"  value="' + data.data.id_tbl_serv_ofertado + '">' +
             '</form>',
           confirmButtonText: 'actualizar',
           focusConfirm: false,
           didOpen() {
             //console.log(data.data.fk_tbl_grupo_serv);
             get_gus(data.data.fk_tbl_grupo_serv)
-          },         
+          },
           preConfirm: () => {
-            
+
             const grupo = Swal.getPopup().querySelector('#nombre').value
             //const form = Swal.getPopup().querySelector('#formupdatehso')
             //const password = Swal.getPopup().querySelector('#password').value
@@ -202,22 +204,22 @@ async function updatesvo($id) {
           }
 
         })
-        
+
       } else {
         Swal.fire(data.messages);
       }
-      
-      
+
+
     }
   });
   //get_hso();
-  
+
 }
 
 function deletesvo($id) {
 
   $.ajax({
-    url: base_url+ '/api/svo/eliminar',
+    url: base_url + '/api/svo/eliminar',
     method: 'POST',
     data: { idsvo: $id },
     beforeSend: function () {

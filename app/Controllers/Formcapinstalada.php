@@ -24,6 +24,15 @@ class Formcapinstalada extends ResourceController{
         echo view('template/header');
 		echo view('template/main_header');
 		echo view('template/sidebar');
+		echo view('dash_capa_instalada_view');
+		echo view('template/footer');
+    }
+
+    public function formulario(){
+
+        echo view('template/header');
+		echo view('template/main_header');
+		echo view('template/sidebar');
 		echo view('formcapinstalada_view');
 		echo view('template/footer');
     }
@@ -48,7 +57,7 @@ class Formcapinstalada extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -63,42 +72,61 @@ class Formcapinstalada extends ResourceController{
         
         try {
             $capainstaModel = new CapacidadinstaladaModel();
+            $max_estu_cama = NULL;
+            $capa_max_estud_consulta = NULL;
+            $capa_max_estud_paciente = NULL;
              //vedrifico si llega información obligatoria
              if (!empty($_POST['pkgus']) && !empty($_POST['pksvo']) && !empty($_POST['pkprog']) ) {
 
+                if ($_POST['numcamuus'] != "") {
+                    
+                    $max_estu_cama = ( $_POST['numcamuus'] * $_POST['numest'] ) / $_POST['numpaci'];
+                    //print_r($max_estu_cama);
+                }elseif ($_POST['numespauus'] != "") {
+                    $capa_max_estud_consulta = $_POST['numespauus'] * $_POST['numest'];
+                    
+                }elseif ($_POST['numpacuus'] != "") {
+                    $capa_max_estud_paciente = ($_POST['numpacuus'] *$_POST['numest'] ) / $_POST['numpaci'];
+                }
+                
                 //
-                $max_estu_cama = ( $_POST['numcamuus'] * $_POST['numest'] ) / $_POST['numpaci'];
-                $max_estu_camaV = ($max_estu_cama >= 1) ? $max_estu_cama : null ;
+                //$max_estu_camaV = ($max_estu_cama == null) ? $max_estu_cama : null ;
+                $max_estu_camaV = ($max_estu_cama === null) ? null : $max_estu_cama ;
                 //
-                $capa_max_estud_consulta = $_POST['numespauus'] * $_POST['numest'] ;
-                $capa_max_estud_consultaV = ($capa_max_estud_consulta >= 1) ? $capa_max_estud_consulta : null ;
+                $capa_max_estud_consultaV = ($capa_max_estud_consulta === null) ? null : $capa_max_estud_consulta;
+                //$capa_max_estud_consultaV = ($capa_max_estud_consulta >= 1) ? $capa_max_estud_consulta : null ;
                 //
-                $capa_max_estud_paciente = ($_POST['numpacuus'] *$_POST['numest'] ) / $_POST['numpaci'];
-                $capa_max_estud_pacienteV = ($capa_max_estud_paciente >= 1) ? $capa_max_estud_paciente : null ;
+                //$capa_max_estud_pacienteV = ($capa_max_estud_paciente >= 1) ? $capa_max_estud_paciente : null ;
+                $capa_max_estud_pacienteV = ($capa_max_estud_paciente === null) ? null : $capa_max_estud_paciente;
+                
                 //
-                if ($max_estu_camaV >= 1) {
-                    $max_dato_doc = $max_estu_camaV;
-
+                if($capa_max_estud_consultaV >= 1){
+                    $max_dato_doc = $capa_max_estud_consultaV;
                 }else if($capa_max_estud_consultaV >= 1){
                     $max_dato_doc = $capa_max_estud_consultaV;
-
                 }else if($capa_max_estud_pacienteV >= 1){
                     $max_dato_doc = $capa_max_estud_pacienteV;
-
                 }else{
                     $max_dato_doc = 0;
-
                 }
                 //
                 $num_docen_requiere = ($max_dato_doc >= 1) ? $max_dato_doc / $_POST['numestydoc'] : 0;
-                $num_docen_requiereV = ($num_docen_requiere >= 1) ? $num_docen_requiere : 0 ;
+                //$num_docen_requiereV = ($num_docen_requiere >= 1) ? $num_docen_requiere : 0 ;
+
+                if($num_docen_requiere > 0){
+                    $num_docen_requiereV=1;
+                }else if($num_docen_requiere >= 1){
+                    $num_docen_requiereV = $num_docen_requiere;
+                }else{
+                    $num_docen_requiereV = 0;
+                }
 
                 $data = [
                     "capa_max_estud_cama" => $max_estu_camaV,
                     "capa_max_estud_consulta" => $capa_max_estud_consultaV,
                     "capa_max_estud_paciente" => $capa_max_estud_pacienteV,
                     "num_docen_requiere" => $num_docen_requiereV,
-                    "fk_tbl_programa" => $this->request->getVar("pkprog"),
+                    "fk_tbl_uss_u_gus_u_svo_u_prog" => $this->request->getVar("pkrel"),
                 ];
 
                    //consulto el numero de filas para armar el consecutivo
@@ -111,7 +139,7 @@ class Formcapinstalada extends ResourceController{
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
-                           'messages' => 'Capacidad instalada creada',
+                           'messages' => 'Capacidad médica creada',
                        ];
                    } else {
                        $response = [
@@ -136,7 +164,7 @@ class Formcapinstalada extends ResourceController{
            ];
            //die($e->getMessage());
        }
-       //return $this->respond($response);
+       return $this->respond($response);
 
     }
 
@@ -160,7 +188,7 @@ class Formcapinstalada extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -169,6 +197,53 @@ class Formcapinstalada extends ResourceController{
             return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
         }
         
+    }
+
+    public function detailsCapMesIns(){
+        
+        try {
+            $capmedinstaModel = new CapacidadinstaladaModel();
+            //vedrifico si llega información del correo
+            if (!empty($_POST['pkuss']) && !empty($_POST['pkgus'])) {
+                //Valido si el correo ya existe en la BD
+                if ($_POST['pksvo'] == "" && $_POST['pkprog'] == "" && $_POST['pkperf']=="") {
+                    //printf('entra1');
+                    $data_estand = $capmedinstaModel->get_data_capmed($_POST['pkuss'],$_POST['pkgus']);
+                }elseif ($_POST['pksvo'] != "" && $_POST['pkprog'] =="" && $_POST['pkperf']=="") {
+                    $data_estand = $capmedinstaModel->get_data_capmed2($_POST['pkuss'],$_POST['pkgus'],$_POST['pksvo']);
+                }elseif ($_POST['pkprog'] !="" && $_POST['pkperf']=="") {
+                    $data_estand = $capmedinstaModel->get_data_capmed3($_POST['pkuss'],$_POST['pkgus'],$_POST['pksvo'],$_POST['pkprog']);
+                }else{
+                    $data_estand = $capmedinstaModel->get_data_capmed4($_POST['pkuss'],$_POST['pkgus'],$_POST['pksvo'],$_POST['pkprog'],$_POST['pkperf']);
+                }
+                
+                //envio respuesta a vista
+                if (!empty($data_estand)) {
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $data_estand,
+                    ];
+                } else {
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'messages' => 'Error, no existe el valores en los filtros seleccionados',
+                    ];
+                }
+
+            }else{
+                $response = [
+                    'status' => 404,
+                    "error" => TRUE,
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
+                ];
+            }
+            return $this->respond(json_encode($response));
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
     }
 
 

@@ -238,7 +238,7 @@
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#">Configuración</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="logout">Salir</a>
+								<a class="dropdown-item" href="<?= base_url(); ?>logout">Salir</a>
 							</li>
 						</div>
 					</ul>

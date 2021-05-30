@@ -49,7 +49,7 @@ class Gus extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 
@@ -79,7 +79,7 @@ class Gus extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, no existe el valor consultado',
+                        'messages' => 'Error, no existe el valor consultado',
                     ];
                 }
 
@@ -87,7 +87,7 @@ class Gus extends ResourceController{
                 $response = [
                     'status' => 404,
                     "error" => TRUE,
-                    'data' => 'Se esperaba la variable de consulta, Bad rquest',
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
                 ];
             }
             return $this->respond(json_encode($response));
@@ -97,14 +97,14 @@ class Gus extends ResourceController{
 
     }
 
-    public function detail_fk(){
+    public function detail_x_fk(){
         
         try {
             $gusModel = new GusModel();
             //vedrifico si llega información del correo
-            if (!empty($_POST['pkuus'])) {
+            if (!empty($_POST['pkuss'])) {
                 //Valido si el correo ya existe en la BD
-                $data_gus = $gusModel->get_data_x_fk($_POST['pkuus']);
+                $data_gus = $gusModel->get_data_x_fk($_POST['pkuss']);
                 //envio respuesta a vista
                 if (!empty($data_gus)) {
                     $response = [
@@ -116,7 +116,7 @@ class Gus extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, no existe el valor consultado',
+                        'messages' => 'Error, no existen datos para el valor consultado',
                     ];
                 }
 
@@ -124,7 +124,7 @@ class Gus extends ResourceController{
                 $response = [
                     'status' => 404,
                     "error" => TRUE,
-                    'data' => 'Se esperaba la variable de consulta, Bad rquest',
+                    'messages' => 'Se esperaba la variable de consulta, Bad rquest',
                 ];
             }
             return $this->respond(json_encode($response));
@@ -139,13 +139,13 @@ class Gus extends ResourceController{
         try {
             $gusModel = new GusModel();
              //vedrifico si llega información obligatoria
-             if (!empty($_POST['uss']) && !empty($_POST['grupo']) ) {
+             if (!empty($_POST['grupo']) ) {
 
                 $data = [
-                    "fk_tbl_serv_salud" => $this->request->getVar("uss"),
+                    //"fk_tbl_serv_salud" => $this->request->getVar("uss"),
                     "numero" => $this->request->getVar("numero"),
                     "grupo" => $this->request->getVar("grupo"),
-                    "codigo" => $this->request->getVar("codigo"),
+                    //"codigo" => $this->request->getVar("codigo"),
                 ];
                //valido si ya esta registrado el correo y envio exeption
                $exis_gus = $gusModel->exist_gus($data['grupo']);
@@ -201,14 +201,14 @@ class Gus extends ResourceController{
         try {
             $gusModel = new GusModel();
              //vedrifico si llega información del correo
-             if (!empty($_POST['grupo']) && !empty($_POST['pkuss']) && !empty($_POST['idgus'])) {
+             if (!empty($_POST['grupo']) && !empty($_POST['idgus'])) {
 
                 $data = [
                     "id" => $this->request->getVar("idgus"),
                     "numero" => $this->request->getVar("numero"),
                     "grupo" => $this->request->getVar("grupo"),
                     "codigo" => $this->request->getVar("codigo"),
-                    "pkuss" => $this->request->getVar("pkuss"),
+                    //"pkuss" => $this->request->getVar("pkuss"),
                 ];
                    //Envio datos al modelo para actualizar
                    $update_gus = $gusModel->update_gus($data);
@@ -217,14 +217,14 @@ class Gus extends ResourceController{
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
-                           'messages' => 'Servicio Actualizado',
+                           'messages' => 'Grupo Actualizado',
                        ];
                    } else {
 
                        $response = [
                            'status' => 500,
                            "error" => TRUE,
-                           'messages' => 'Fallo al actualizar el Servicios',
+                           'messages' => 'Fallo al actualizar el Grupo',
                        ];
                    }
                //}
@@ -316,7 +316,7 @@ class Gus extends ResourceController{
                     $response = [
                         'status' => 400,
                         "error" => TRUE,
-                        'data' => 'Error, tabla sin datos',
+                        'messages' => 'Error, tabla sin datos',
                     ];
                 }
 

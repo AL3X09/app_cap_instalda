@@ -134,17 +134,54 @@ class Programa extends ResourceController{
 
     }
 
+    public function detail_fk2(){
+        
+        try {
+            $progModel = new ProgramaModel();
+            //vedrifico si llega información del correo
+            if (!empty($_POST['pksov'])) {
+                //Valido si el correo ya existe en la BD
+                $data_x_fk = $progModel->get_data_x_fk($_POST['pksov']);
+                //envio respuesta a vista
+                if (!empty($data_x_fk)) {
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $data_x_fk,
+                    ];
+                } else {
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'data' => 'Error, no existe el valor consultado',
+                    ];
+                }
+
+            }else{
+                $response = [
+                    'status' => 404,
+                    "error" => TRUE,
+                    'data' => 'Se esperaba la variable de consulta, Bad rquest',
+                ];
+            }
+            return $this->respond(json_encode($response));
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+
+    }
+
     public function insertProg(){
         
         try {
             $progModel = new ProgramaModel();
              //vedrifico si llega información obligatoria
-             if (!empty($_POST['pksvo']) && !empty($_POST['programa']) && !empty($_POST['perfil']) ) {
+             if (!empty($_POST['programa']) ) {
 
                 $data = [
-                    "fk_tbl_serv_ofertado" => $this->request->getVar("pksvo"),
+                    "fk_tbl_serv_ofertado" => NULL,//$this->request->getVar("pksvo"),
                     "nombre_prog" => $this->request->getVar("programa"),
-                    "perfil_est" => $this->request->getVar("perfil"),
+                    "fk_tbl_perfil_est" => NULL //$this->request->getVar("perfil"),
                 ];
                //valido si ya esta registrado el correo y envio exeption
                $exist_prog = $progModel->exist_programa($data['nombre_prog']);
@@ -203,13 +240,11 @@ class Programa extends ResourceController{
         try {
             $progModel = new ProgramaModel();
              //vedrifico si llega información del correo
-             if (!empty($_POST['idprog']) && !empty($_POST['pksvo']) && !empty($_POST['programa']) && !empty($_POST['perfil']) ) {
+             if (!empty($_POST['idprog']) && !empty($_POST['programa']) ) {
 
                 $data = [
                     "id" => $this->request->getVar("idprog"),
                     "programa" => $this->request->getVar("programa"),
-                    "perfil" => $this->request->getVar("perfil"),
-                    "pksvo" => $this->request->getVar("pksvo"),
                 ];
                    //Envio datos al modelo para actualizar
                    $update_svo = $progModel->update_programa($data);
@@ -218,14 +253,14 @@ class Programa extends ResourceController{
                        $response = [
                            'status' => 201,
                            "error" => FALSE,
-                           'messages' => 'Servicio ofertado Actualizado',
+                           'messages' => 'Programa Actualizado',
                        ];
                    } else {
 
                        $response = [
                            'status' => 500,
                            "error" => TRUE,
-                           'messages' => 'Fallo al actualizar el Servicio ofertado',
+                           'messages' => 'Fallo al actualizar el Programa',
                        ];
                    }
                //}
@@ -295,6 +330,38 @@ class Programa extends ResourceController{
        }
        return $this->respond($response);
 
+    }
+
+    public function countallProg(){
+
+        try {
+            $progModel = new ProgramaModel();
+            
+            //vedrifico si llega información del correo
+            $exis_prog = $progModel->count_all_programa();
+            
+                if (!empty($exis_prog)) {
+
+                    $response = [
+                        'status' => 200,
+                        "error" => FALSE,
+                        'data' => $exis_prog,
+                    ];
+
+                } else {
+
+                    $response = [
+                        'status' => 400,
+                        "error" => TRUE,
+                        'messages' => 'Error, tabla programa sin datos',
+                    ];
+                }
+
+            return $this->respond($response);
+        } catch (\Exception $e) {
+            return $this->failServerError('se ha presntado una exepción ' . $e->getMessage());
+        }
+        
     }
 
 

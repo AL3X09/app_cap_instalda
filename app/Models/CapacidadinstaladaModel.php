@@ -13,8 +13,8 @@ class CapacidadinstaladaModel extends Model
 	}
 
 	protected $DBGroup              = 'default';
-	protected $table                = 'tbl_capa_instalada';
-	protected $primaryKey           = 'id_tbl_capa_instalada';
+	protected $table                = 'tbl_capa_med_instalada';
+	protected $primaryKey           = 'id_tbl_capa_med_instalada';
 
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -36,7 +36,7 @@ class CapacidadinstaladaModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
-	protected $foreingkey           = 'fk_tbl_programa';
+	protected $foreingkey           = 'fk_tbl_uss_u_gus_u_svo_u_prog';
 
 	// Validation
 	protected $validationRules      = [];
@@ -151,4 +151,116 @@ class CapacidadinstaladaModel extends Model
 
 		return $query;
 	}
+
+	public function get_data_capmed($pkuss,$pkgus)
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, 
+			GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, 
+			SOV.nombre_serv AS nombreserv, SOV.codigo, PR.id_tbl_programa, PR.nombre_prog AS programa, 
+			PE.id_tbl_perfil_est, PE.nombre AS perfil_est, ES.num_estudiantes, ES.num_pacientes, ES.num_estudiante_x_docente,
+			ES.observacion, CUS.num_cama_uus, CUS.num_consultorio_uus, CUS.num_paciente_uus')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
+			->join('tbl_estandar AS ES', 'ES.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->join('tbl_capacidad_uus AS CUS', 'CUS.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->where('ASO.fk_tbl_uni_serv_salud', $pkuss)
+			->Where('ASO.fk_tbl_grup_servicio', $pkgus)
+			//->orWhere('ASO.fk_tbl_serv_ofertado', '')
+			//->orWhere('ASO.fk_tbl_programa', '')
+			//->orWhere('ASO.fk_tbl_perfil_est', '')
+			->get()
+			->getResult();
+			//->getCompiledSelect();
+		return $querye;
+	}
+
+	public function get_data_capmed2($pkuss,$pkgus,$pksvo)
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, 
+			GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, 
+			SOV.nombre_serv AS nombreserv, SOV.codigo, PR.id_tbl_programa, PR.nombre_prog AS programa, 
+			PE.id_tbl_perfil_est, PE.nombre AS perfil_est, ES.num_estudiantes, ES.num_pacientes, ES.num_estudiante_x_docente,
+			ES.observacion, CUS.num_cama_uus, CUS.num_consultorio_uus, CUS.num_paciente_uus')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
+			->join('tbl_estandar AS ES', 'ES.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->join('tbl_capacidad_uus AS CUS', 'CUS.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->where('ASO.fk_tbl_uni_serv_salud', $pkuss)
+			->Where('ASO.fk_tbl_grup_servicio', $pkgus)
+			->Where('ASO.fk_tbl_serv_ofertado', $pksvo)
+			//->orWhere('ASO.fk_tbl_programa', '')
+			//->orWhere('ASO.fk_tbl_perfil_est', '')
+			->get()
+			->getResult();
+			//->getCompiledSelect();
+		return $querye;
+	}
+
+	public function get_data_capmed3($pkuss,$pkgus,$pksvo,$pkprog)
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, 
+			GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, 
+			SOV.nombre_serv AS nombreserv, SOV.codigo, PR.id_tbl_programa, PR.nombre_prog AS programa, 
+			PE.id_tbl_perfil_est, PE.nombre AS perfil_est, ES.num_estudiantes, ES.num_pacientes, ES.num_estudiante_x_docente,
+			ES.observacion, CUS.num_cama_uus, CUS.num_consultorio_uus, CUS.num_paciente_uus')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
+			->join('tbl_estandar AS ES', 'ES.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->join('tbl_capacidad_uus AS CUS', 'CUS.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->where('ASO.fk_tbl_uni_serv_salud', $pkuss)
+			->Where('ASO.fk_tbl_grup_servicio', $pkgus)
+			->Where('ASO.fk_tbl_serv_ofertado', $pksvo)
+			->Where('ASO.fk_tbl_programa', $pkprog)
+			->get()
+			->getResult();
+			//->getCompiledSelect();
+		return $querye;
+	}
+
+	public function get_data_capmed4($pkuss,$pkgus,$pksvo,$pkprog,$pkperf)
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, 
+			GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, 
+			SOV.nombre_serv AS nombreserv, SOV.codigo, PR.id_tbl_programa, PR.nombre_prog AS programa, 
+			PE.id_tbl_perfil_est, PE.nombre AS perfil_est, ES.num_estudiantes, ES.num_pacientes, ES.num_estudiante_x_docente,
+			ES.observacion, CUS.num_cama_uus, CUS.num_consultorio_uus, CUS.num_paciente_uus')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
+			->join('tbl_estandar AS ES', 'ES.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->join('tbl_capacidad_uus AS CUS', 'CUS.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro')
+			->where('ASO.fk_tbl_uni_serv_salud', $pkuss)
+			->Where('ASO.fk_tbl_grup_servicio', $pkgus)
+			->Where('ASO.fk_tbl_serv_ofertado', $pksvo)
+			->Where('ASO.fk_tbl_programa', $pkprog)
+			->Where('ASO.fk_tbl_perfil_est', $pkperf)
+			->get()
+			->getResult();
+			//->getCompiledSelect();
+		return $querye;
+	}
+
 }

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center">
-                        <h1 class="text-blue pb-2 fw-bold">subredes integradas</h1>
+                        <h1 class="text-blue pb-2 fw-bold">SUBREDES INTEGRADAS</h1>
                     </div>
                 </div>
             </div>

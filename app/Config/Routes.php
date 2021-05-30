@@ -33,7 +33,7 @@ $routes->group("api", function ($routes) {
 
     $routes->post("existe_correo", "User::existe_correo");
     $routes->post("register", "User::createUser");
-    $routes->post("login", "User::validateUser");
+    $routes->post("logeo", "User::validateUser");
     $routes->get("userdata", "User::userDetails");
     
 });
@@ -57,6 +57,7 @@ $routes->group("api/uss", function ($routes) {
     $routes->post("crear", "Uss::insertUss");
     $routes->post("editar", "Uss::updateUss");
     $routes->post("eliminar", "Uss::deleteUss");
+    $routes->post("fkagrupado", "Uss::detail_x_fk");
     $routes->get("countalluss", "Uss::countallUss");
     
 });
@@ -69,7 +70,7 @@ $routes->group("api/gus", function ($routes) {
     $routes->post("crear", "Gus::insertGus");
     $routes->post("editar", "Gus::updateGus");
     $routes->post("eliminar", "Gus::deleteGus");
-    $routes->post("fkagrupado", "Gus::detail_fk");
+    $routes->post("fkagrupado", "Gus::detail_x_fk");
     $routes->get("countallgus", "Gus::countallGus");
     
 });
@@ -109,7 +110,7 @@ $routes->group("api/programa", function ($routes) {
     $routes->post("editar", "Programa::updateProg");
     $routes->post("eliminar", "Programa::deleteProg");
     $routes->post("fkagrupado", "Programa::detail_fk");
-    $routes->get("countallsvo", "Programa::countallProg");
+    $routes->get("countall", "Programa::countallProg");
     
 });
 
@@ -121,8 +122,8 @@ $routes->group("api/estandar", function ($routes) {
     $routes->post("crear", "Estandar::insertEst");
     $routes->post("editar", "Estandar::updateEst");
     $routes->post("eliminar", "Estandar::deleteEst");
+    $routes->post("fkagrupado", "Estandar::detail_fk");
     $routes->get("countestprog", "Estandar::graph_Estudi");
-    
     
 });
 
@@ -136,15 +137,33 @@ $routes->group("api/capacidaduus", function ($routes) {
     $routes->post("eliminar", "Capacidaduus::deleteCapuss");
     
 });
+
 //grupo para capacidad instalada
-$routes->group("api/capinstalada", function ($routes) {
+$routes->group("api/asociacion", function ($routes) {
+
+    //$routes->get("alldata", "Formcapinstalada::getallDatainstalada");
+    $routes->post("crear", "UssGusSvoProgPerf::insertUGSPP");
+    $routes->post("editar", "UssGusSvoProgPerf::updateUGSPP");
+});
+
+//grupo para los datos de la unidad de servicios
+$routes->group("api/datosuss", function ($routes) {
+
+    //$routes->get("alldata", "Formcapinstalada::getallDatainstalada");
+    $routes->post("crear", "UssGusSvoProgPerf::insertUGSPP");
+    $routes->post("editar", "UssGusSvoProgPerf::updateUGSPP");
+});
+
+
+//grupo para capacidad instalada
+$routes->group("api/capmedinstall", function ($routes) {
 
     $routes->get("alldata", "Formcapinstalada::getallDatainstalada");
     $routes->post("crear", "Formcapinstalada::insertDatainstalada");
     $routes->get("countdoceprog", "Formcapinstalada::graph_Docen");
-
-    /*$routes->post("buscar", "Formcapinstalada::detailsCapUss");
+    $routes->post("buscar", "Formcapinstalada::detailsCapMesIns");
     
+    /*
     $routes->post("editar", "Formcapinstalada::updateCapUss");
     $routes->post("eliminar", "Formcapinstalada::deleteCapUss");*/
     
@@ -165,7 +184,11 @@ $routes->get('/logout', 'User::cerrarSesion');
 $routes->get("/", "Home::index");
 $routes->get("/", "Uss::index");
 $routes->get("/", "Hso::index");
+$routes->get("/", "Estandar::index");
+$routes->get("/datosussv", "Capacidaduus::index");
 $routes->get("/capinstalada", "Formcapinstalada::index");
+$routes->get("/formcapinstalada", "Formcapinstalada::formulario");
+
 
 /*
  * --------------------------------------------------------------------

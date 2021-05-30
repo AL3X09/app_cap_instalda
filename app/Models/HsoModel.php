@@ -66,6 +66,7 @@ class HsoModel extends Model{
 	public function get_all_hso()
     {
         $querye = $this->table($this->table)
+						->where('is_active = 1')
 					    ->get()
 						->getResult();
         

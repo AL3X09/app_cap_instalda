@@ -1,6 +1,8 @@
 //creado por Alex Cs 18/04/2021
 
 $(document).ready(function () {
+  $("#base").addClass("show");
+  $('#btngus').addClass("active");
   cargardatagus();
 });
 
@@ -35,14 +37,14 @@ function cargar_tablegus(data) {
         field: 'grupo',
         title: 'Grupo'
       },
-      {
+      /*{
         field: 'codigo',
         title: 'Código'
       },
       {
         field: 'nombres',
         title: 'Unidad de Servicios'
-      },
+      },*/
       {
         field: 'is_active',
         title: 'Estado'
@@ -67,6 +69,7 @@ function cargar_tablegus(data) {
 
 }
 
+//YA NO SE USA XQ SE INTEGRA EN OTRAS SECCIONES
 function get_uss($iduss) {
   //limpio select
   $('#uss_select')
@@ -151,15 +154,10 @@ async function updategus($id) {
         Swal.fire({
           title: 'Actualizar',
           html: '<form id="formupdategus" method="post">' +
-            '<label for="uss" class="col-form-label">Unidad de servicios</label>'+
-            '<select class="form-control form-control" id="uss_selectd" name="pkuss" required>' +
-            '</select>' +
             '<label for="numero" class="col-form-label">Número</label>'+
             '<input type="text" id="numero" name="numero" class="swal2-input" value="' + data.data.numero + '">' +
             '<label for="grupo" class="col-form-label">Grupo</label>'+
             '<input type="text" id="grupo" name="grupo" class="swal2-input" value="' + data.data.grupo + '">' +
-            '<label for="codigo" class="col-form-label">Código</label>'+
-            '<input type="text" id="codigo" name="codigo" class="swal2-input" value="' + data.data.codigo + '">' +
             '<input type="hidden" id="idgus" name="idgus" class="swal2-input"  value="' + data.data.id_tbl_grup_servicio + '">' +
             '</form>',
           confirmButtonText: 'actualizar',

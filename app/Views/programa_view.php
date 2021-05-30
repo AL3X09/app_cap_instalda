@@ -37,28 +37,28 @@
 
                     <form id="forminsertprog" method="post">
 
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="pksvo" class="col-sm-2 col-form-label">Servicio de oferta</label>
                             <div class="col-sm-10">
                                 <select class="form-control form-control" id="svo_select" name="pksvo" required onchange="get_perfil()">
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group row">
                             <label for="programa" class="col-sm-2 col-form-label">Programa</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="programa" name="programa" placeholder="Programa" required>
                             </div>
                         </div>
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="perfil" class="col-sm-2 col-form-label">Perfil de estudio</label>
                             <div class="col-sm-10">
                                 <select class="form-control form-control" id="perfil_select" name="perfil" required>
                                     <option value="">Seleccione</option>
                                 </select>
                             </div>
-                        </div>
+                        </div>-->
                        
                     </form>
 

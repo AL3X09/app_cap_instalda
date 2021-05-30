@@ -33,6 +33,7 @@ class UssModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
+	protected $foreingkey           = 'fk_tbl_serv_hospital';
 
 	// Validation
 	protected $validationRules      = [];
@@ -123,6 +124,20 @@ class UssModel extends Model
 	{
 		$query = $this->table($this->table)
 					->countAllResults();
+		return $query;
+	}
+
+	//
+	public function get_data_x_fk($fkhso)
+	{
+		$query = $this->table($this->table)
+			->select($this->table . '.*')
+			//->join('tbl_uss_u_gus_u_svo_u_prog AS TU', 'TU.id = '. $fkuss)
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = '. $this->foreingkey)
+			->where($this->foreingkey, $fkhso)
+			->get()
+			->getResult();
+			//->getCompiledSelect();
 		return $query;
 	}
 

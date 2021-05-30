@@ -139,10 +139,10 @@ class Svo extends ResourceController{
         try {
             $svoModel = new SvoModel();
              //vedrifico si llega información obligatoria
-             if (!empty($_POST['pkgus']) && !empty($_POST['nombre']) ) {
+             if (!empty($_POST['nombre']) ) {
 
                 $data = [
-                    "fk_tbl_grupo_serv" => $this->request->getVar("pkgus"),
+                    "codigo" => $this->request->getVar("codigo"),
                     "nombre_serv" => $this->request->getVar("nombre"),
                 ];
                //valido si ya esta registrado el correo y envio exeption
@@ -203,12 +203,12 @@ class Svo extends ResourceController{
         try {
             $svoModel = new SvoModel();
              //vedrifico si llega información del correo
-             if (!empty($_POST['nombre']) && !empty($_POST['pkgus'])) {
+             if (!empty($_POST['nombre'])) {
 
                 $data = [
                     "id" => $this->request->getVar("idsvo"),
                     "nombre" => $this->request->getVar("nombre"),
-                    "pkgus" => $this->request->getVar("pkgus"),
+                    "codigo" => $this->request->getVar("codigo"),
                 ];
                    //Envio datos al modelo para actualizar
                    $update_svo = $svoModel->update_svo($data);

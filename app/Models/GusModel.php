@@ -24,7 +24,6 @@ class GusModel extends Model
 	protected $allowedFields        = [
 		"numero",
 		"grupo",
-		"codigo",
 	];
 
 	// Dates
@@ -34,7 +33,7 @@ class GusModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
-	protected $foreingkey           = 'fk_tbl_uni_serv_salud';
+	//protected $foreingkey           = 'fk_tbl_uni_serv_salud';
 
 	// Validation
 	protected $validationRules      = [];
@@ -71,6 +70,75 @@ class GusModel extends Model
 	public function get_all_gus()
 	{
 		$querye = $this->table($this->table)
+			->get()
+			->getResult();
+
+		return $querye;
+	}
+
+	public function get_data_gus($pk)
+	{
+		$querye = $this->table($this->table)
+			->where($this->primaryKey, $pk)
+			->get()
+			->getRowArray();
+		return $querye;
+	}
+	
+	//TODO ajustar
+	public function get_data_x_fk($fkuss)
+	{
+		$query = $this->table($this->table)
+			->select($this->table . '.*')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS REL', 'REL.fk_tbl_grup_servicio = id_tbl_grup_servicio')
+			->where('REL.fk_tbl_uni_serv_salud =', $fkuss)
+			->get()
+			->getResult();
+			//->getCompiledSelect();
+		return $query;
+	}
+
+	public function insert_gus($data)
+	{
+		$query = $this->db->table($this->table)->insert($data);
+		return $query ? true : false;
+	}
+
+	public function update_gus($data)
+	{
+		$query = $this->db->table($this->table)
+			->set('numero', $data["numero"])
+			->set('grupo', $data["grupo"])
+			->where($this->primaryKey, $data["id"])
+			->update();
+		return $query ? true : false;
+	}
+
+	//Eliminación logica
+	public function delete_gus($data)
+	{
+		$query = $this->db->table($this->table)
+			->set('is_active', 0)
+			->where($this->primaryKey, $data["id"])
+			->update();
+		return $query ? true : false;
+	}
+
+	//
+	public function count_all_gus()
+	{
+		$query = $this->table($this->table)
+					->countAllResults();
+		return $query;
+	}
+	
+}
+
+/**
+ * OLD
+ * public function get_all_gus()
+	{
+		$querye = $this->table($this->table)
 			->select($this->table . '.*,U.id_tbl_uni_serv_salud, U.nombre AS nombres')
 			->join('tbl_uni_serv_salud AS U', 'U.id_tbl_uni_serv_salud = fk_tbl_uni_serv_salud')
 			->get()
@@ -98,42 +166,4 @@ class GusModel extends Model
 			->getResult();
 		return $query;
 	}
-
-	public function insert_gus($data)
-	{
-		$query = $this->db->table($this->table)->insert($data);
-		return $query ? true : false;
-	}
-
-	public function update_gus($data)
-	{
-		
-		$query = $this->db->table($this->table)
-			->set('numero', $data["numero"])
-			->set('grupo', $data["grupo"])
-			->set('codigo', $data["codigo"])
-			->set($this->foreingkey, $data["pkuss"])
-			->where($this->primaryKey, $data["id"])
-			->update();
-		return $query ? true : false;
-	}
-
-	//Eliminación logica
-	public function delete_gus($data)
-	{
-		$query = $this->db->table($this->table)
-			->set('is_active', 0)
-			->where($this->primaryKey, $data["id"])
-			->update();
-		return $query ? true : false;
-	}
-
-	//
-	public function count_all_gus()
-	{
-		$query = $this->table($this->table)
-					->countAllResults();
-		return $query;
-	}
-	
-}
+ */

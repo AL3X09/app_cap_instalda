@@ -36,7 +36,7 @@ class EstandarModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
-	protected $foreingkey           = 'fk_tbl_programa';
+	protected $foreingkey           = 'fk_tbl_uss_gus_svo_pro';
 
 	// Validation
 	protected $validationRules      = [];
@@ -81,27 +81,31 @@ class EstandarModel extends Model
 	public function get_all_estandar()
 	{
 		$querye = $this->table($this->table)
-			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.nombre AS perfil_est')
-			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
-			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
-			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
-			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
-			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = PR.fk_tbl_perfil_est')
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.codigo, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.id_tbl_perfil_est, PE.nombre AS perfil_est')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est', 'LEFT')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa ', 'LEFT')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado', 'LEFT')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio', 'LEFT')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud', 'LEFT')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
 			->get()
 			->getResult();
-
+		//->getCompiledSelect();
 		return $querye;
 	}
 
 	public function get_data_estandar($pk)
 	{
 		$querye = $this->table($this->table)
-			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.nombre AS perfil_est')
-			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
-			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
-			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
-			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
-			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = PR.fk_tbl_perfil_est')
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.codigo, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.id_tbl_perfil_est, PE.nombre AS perfil_est')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est', 'LEFT')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa ', 'LEFT')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado', 'LEFT')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio', 'LEFT')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud', 'LEFT')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
 			->where($this->primaryKey, $pk)
 			->get()
 			->getRowArray();
@@ -116,11 +120,12 @@ class EstandarModel extends Model
 
 	public function update_estandar($data)
 	{
-
 		$query = $this->db->table($this->table)
-			->set('nombre_prog', $data["programa"])
-			->set('perfil_est', $data["perfil"])
-			->set($this->foreingkey, $data["pksvo"])
+			->set('num_estudiantes', $data["numest"])
+			->set('num_pacientes', $data["numpaci"])
+			->set('num_estudiante_x_docente', $data["numestydoc"])
+			->set('observacion', $data["observa"])
+			->set($this->foreingkey, $data["fkrelaci"])
 			->where($this->primaryKey, $data["id"])
 			->update();
 		return $query ? true : false;
@@ -144,6 +149,16 @@ class EstandarModel extends Model
 			->update();
 		return $query ? true : false;
 	}
+	
+	//contar cantidad de estudiantes por programa
+	public function cont_all_estandar()
+	{
+		$query = $this->table($this->table)
+				->countAllResults();
+
+		return $query;
+	}
+	
 	//contar cantidad de estudiantes por programa
 	public function cont_estandar_x_prog()
 	{
@@ -155,6 +170,23 @@ class EstandarModel extends Model
 			->get()
 			->getResultArray();
 
+		return $query;
+	}
+
+	//Traigo informacion del estandar segun datos de la relaciones seleccionada
+	public function get_data_x_fk($fkuss, $fkgus, $fksov, $fkprog, $fkperf)
+	{
+		$query = $this->table($this->table)
+			->select($this->table . '.*')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS TU', 'TU.id_tbl_uss_gus_svo_pro = ' .$this->primaryKey)
+			->where('TU.fk_tbl_uni_serv_salud =' .$fkuss)
+			->where('TU.fk_tbl_grup_servicio =' .$fkgus)
+			->where('TU.fk_tbl_serv_ofertado =' .$fksov)
+			->where('TU.fk_tbl_programa =' .$fkprog)
+			->where('TU.fk_tbl_perfil_est =' .$fkperf)
+			->get()
+			->getResult();
+			//->getCompiledSelect();
 		return $query;
 	}
 }

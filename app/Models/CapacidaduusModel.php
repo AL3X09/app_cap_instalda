@@ -35,7 +35,7 @@ class CapacidaduusModel extends Model
 	protected $updatedField         = 'updated_at';
 	protected $deletedField         = 'deleted_at';
 	protected $activeField          = 'is_active';
-	protected $foreingkey           = 'fk_tbl_programa';
+	protected $foreingkey           = 'fk_tbl_uss_gus_svo_pro';
 
 	// Validation
 	protected $validationRules      = [];
@@ -65,11 +65,15 @@ class CapacidaduusModel extends Model
 	public function get_all_capacidaduus()
 	{
 		$querye = $this->table($this->table)
-			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PR.perfil_est')
-			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
-			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
-			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
-			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.id_tbl_perfil_est, PE.nombre AS perfil_est, EST.num_estudiantes, EST.num_pacientes,EST.num_estudiante_x_docente')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est', 'LEFT')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa ', 'LEFT')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado', 'LEFT')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio', 'LEFT')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud', 'LEFT')
+			->join('tbl_estandar AS EST', 'EST.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro', 'LEFT')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
 			->get()
 			->getResult();
 
@@ -79,11 +83,15 @@ class CapacidaduusModel extends Model
 	public function get_data_capacidaduus($pk)
 	{
 		$querye = $this->table($this->table)
-			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PR.perfil_est')
-			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
-			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
-			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
-			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PE.id_tbl_perfil_est, PE.nombre AS perfil_est, EST.num_estudiantes, EST.num_pacientes,EST.num_estudiante_x_docente')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_perfil_est AS PE', 'PE.id_tbl_perfil_est = ASO.fk_tbl_perfil_est', 'LEFT')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa = ASO.fk_tbl_programa ', 'LEFT')
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = ASO.fk_tbl_serv_ofertado', 'LEFT')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = ASO.fk_tbl_grup_servicio', 'LEFT')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = ASO.fk_tbl_uni_serv_salud', 'LEFT')
+			->join('tbl_estandar AS EST', 'EST.fk_tbl_uss_gus_svo_pro = ASO.id_tbl_uss_gus_svo_pro', 'LEFT')
+			->join('tbl_uni_serv_hospital AS HSO', 'HSO.id_tbl_uni_serv_hospital = UUS.fk_tbl_serv_hospital')
 			->where($this->primaryKey, $pk)
 			->get()
 			->getRowArray();
@@ -100,9 +108,9 @@ class CapacidaduusModel extends Model
 	{
 
 		$query = $this->db->table($this->table)
-			->set('nombre_prog', $data["programa"])
-			->set('perfil_est', $data["perfil"])
-			->set($this->foreingkey, $data["pksvo"])
+			->set('num_cama_uus', $data["numcamuus"])
+			->set('num_consultorio_uus', $data["numespauus"])
+			->set('num_paciente_uus', $data["numpacuus"])
 			->where($this->primaryKey, $data["id"])
 			->update();
 		return $query ? true : false;
@@ -127,3 +135,38 @@ class CapacidaduusModel extends Model
 		return $query ? true : false;
 	}
 }
+
+/**
+ * 
+ * OLD DATA
+ * 
+ * public function get_all_capacidaduus()
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PR.perfil_est')
+			->join('tbl_uss_u_gus_u_svo_u_prog AS ASO', 'ASO.id_tbl_uss_gus_svo_pro =' . $this->foreingkey)
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
+			->get()
+			->getResult();
+
+		return $querye;
+	}
+
+	public function get_data_capacidaduus($pk)
+	{
+		$querye = $this->table($this->table)
+			->select($this->table . '.*, UUS.id_tbl_uni_serv_salud, UUS.nombre AS nombreuss, GUS.id_tbl_grup_servicio, GUS.numero, GUS.grupo, SOV.id_tbl_serv_ofertado, SOV.nombre_serv AS nombreserv, PR.id_tbl_programa, PR.nombre_prog AS programa, PR.perfil_est')
+			->join('tbl_programa AS PR', 'PR.id_tbl_programa =' . $this->foreingkey)
+			->join('tbl_serv_ofertado AS SOV', 'SOV.id_tbl_serv_ofertado = PR.fk_tbl_serv_ofertado')
+			->join('tbl_grup_servicio AS GUS', 'GUS.id_tbl_grup_servicio = SOV.fk_tbl_grupo_serv')
+			->join('tbl_uni_serv_salud AS UUS', 'UUS.id_tbl_uni_serv_salud = GUS.fk_tbl_serv_salud')
+			->where($this->primaryKey, $pk)
+			->get()
+			->getRowArray();
+		return $querye;
+	}
+ * 
+ */

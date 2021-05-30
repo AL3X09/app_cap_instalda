@@ -5,17 +5,29 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="text-center">
-						<h1 class="text-blue pb-2 fw-bold">ESTUDIO DE CAPACIDAD INSTALADA</h1>
+						<h1 class="text-blue pb-2 fw-bold">DASHBOARD CAPACIDAD ACADÉMICA INSTALADA</h1>
 					</div>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
+					<form id="formcapinstalada" method="post">
+						<div class="form-group row">
+							<label for="pkuss" class="col-sm-3 col-form-label">Subred</label>
+							<div class="col-sm-6">
+								<select class="form-control form-control" id="hso_select" name="pkhso" required onchange="get_gus()">
+									<option value="">Seleccione</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-6">
 					<form id="formcapinstalada" method="post">
 						<div class="form-group row">
 							<label for="pkuss" class="col-sm-3 col-form-label">Unidad de servicios</label>
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<select class="form-control form-control" id="uus_select" name="pkuus" required onchange="get_gus()">
 									<option value="">Seleccione</option>
 								</select>
@@ -110,7 +122,7 @@
 
 			<div class="row">
 
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Núm. Estudiantes en relación a los programas</div>
@@ -125,7 +137,22 @@
 					</div>
 				</div>
 
-				<div class="col-md-6">
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Núm. Estudiantes en relación a los programas</div>
+						</div>
+						<div class="card-body">
+
+							<div class="chart-container">
+								<canvas id="chartproperf" width="995" height="300" style="display: block; width: 995px; height: 300px;" class="chartjs-render-monitor"></canvas>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">Núm. Docentes requridos en relación a los programas</div>

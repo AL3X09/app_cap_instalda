@@ -1,6 +1,8 @@
 //creado por Alex Cs 18/04/2021
 
 $(document).ready(function () {
+  $("#base").addClass("show");
+  $('#btnuss').addClass("active");
   cargardatauss();
 });
 

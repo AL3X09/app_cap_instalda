@@ -37,7 +37,7 @@
 
                     <form id="forminsertgus" method="post">
 
-                        <div class="form-group row">
+                        <!--<div class="form-group row">
                             <label for="uss" class="col-sm-2 col-form-label">Unidad de servicios</label>
                             <div class="col-sm-10">
                                 <select class="form-control form-control" id="uss_select" name="uss" required>
@@ -45,6 +45,13 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="codigo" class="col-sm-2 col-form-label">Código</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código">
+                            </div>
+                        </div>
+                        -->
                         <div class="form-group row">
                             <label for="numero" class="col-sm-2 col-form-label">Número</label>
                             <div class="col-sm-10">
@@ -57,12 +64,7 @@
                                 <input type="text" class="form-control" id="grupo" name="grupo" placeholder="Grupo">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label for="codigo" class="col-sm-2 col-form-label">Código</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código">
-                            </div>
-                        </div>
+                        
                     </form>
 
                 </div>
