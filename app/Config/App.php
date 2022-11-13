@@ -24,7 +24,7 @@ class App extends BaseConfig
 	 * @var string
 	 * public $baseURL = 'http://localhost/app_cap_instalada/public/';
 	 */
-	public $baseURL = 'http://localhost:81/';
+	public $baseURL = 'http://0e3ca29005e2.ngrok.io/app_cap_instalada/public/';
 
 	/**
 	 * --------------------------------------------------------------------------
